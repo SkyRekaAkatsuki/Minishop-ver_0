@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Minishop_ver_0._0._0.Areas.SK_AREA.Models.CategorySmall>
+@{
+    ViewBag.Title = "CategorySSelectPartialView";
+}
+
+<ul class="list-inline list-group" id="ulS_csid">
+    @foreach (var _data in Model)
+    {
+        <li class="list-group-item list-group-item-action" id="@Html.DisplayFor(D=> _data.CategorySID)" val="@Html.DisplayFor(D=> _data.CategorySID)" data-val="@Html.DisplayFor(D=> _data.CategorySID)">@Html.DisplayFor(D => _data.CategorySName)</li>
+    }
+</ul>

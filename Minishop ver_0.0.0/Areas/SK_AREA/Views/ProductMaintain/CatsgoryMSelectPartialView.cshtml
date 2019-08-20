@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Minishop_ver_0._0._0.Areas.SK_AREA.Models.CategoryMiddle>
+@{
+    ViewBag.Title = "CatsgoryMSelectPartialView";
+}
+
+<select class="selectpicker form-control" id="selectM_cmid">
+    @foreach (var _data in Model)
+    {
+        <option id="@Html.DisplayFor(D=> _data.CategoryMID)" value="@Html.DisplayFor(D=> _data.CategoryMID)" data-val="@Html.DisplayFor(D=> _data.CategoryMID)" class="cls_CMPV">@Html.DisplayFor(D=> _data.CategoryMName)</option>
+    }
+</select>

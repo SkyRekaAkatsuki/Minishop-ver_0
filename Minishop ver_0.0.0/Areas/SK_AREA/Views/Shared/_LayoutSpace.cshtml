@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Areas/SK_AREA/Content/ClickObj.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    @RenderSection("styleforProdMaintain", required: false);
+    <style>
+        .backstage_body {
+            margin: 100px auto 150px auto;
+        }
+
+        .backstage_container1 {
+            padding-left: 1vw;
+            padding-right: 1vw;
+        }
+
+        .backstage_colnum_navbar {
+            padding-top: 10vh;
+            padding-bottom: 10vh;
+        }
+
+        .backstage_container10 {
+            padding-left: 10vw;
+            padding-right: 10vw;
+        }
+    </style>
+</head>
+<body style="padding:0px 0px 0px 0px">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    </nav>
+
+    <div class="backstage_container1 backstage_body">
+            @RenderBody()
+    </div>
+
+    <footer class="backstage_container">
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    @RenderSection("ProsMaintainScript", required: false)
+    @RenderSection("Script", required: false)
+</body>
+</html>

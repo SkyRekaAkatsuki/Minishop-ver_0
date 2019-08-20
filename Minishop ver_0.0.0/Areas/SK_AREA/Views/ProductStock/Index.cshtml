@@ -1,0 +1,99 @@
+﻿@model IPagedList<Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ProductStockViewModel>
+
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<h2>產品補貨需求表</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().StockID)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().ProductName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n=>n.First().SupplierName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().ColorName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().SizeName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().AddQTY)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().StockQTY)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().CartQTY)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().OrderQTY)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n => n.First().MinStock)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(n=>n.First().PhotoView)
+            </th>
+            <th scope="col">
+            </th>
+        </tr>
+    </thead>
+    @foreach (var psvmview in Model)
+    {
+        <tbody>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayFor(d => psvmview.StockID)
+                </th>
+                <td>
+                    @Html.DisplayFor(d => psvmview.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => psvmview.SupplierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => psvmview.ColorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => psvmview.SizeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => psvmview.AddQTY)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => psvmview.StockQTY)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => psvmview.CartQTY)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => psvmview.OrderQTY)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => psvmview.MinStock)
+                </td>
+                <td>
+                    <img src="@Url.Action("GetImageByte","ProductStock",new { id = psvmview.readimg_to_getimagebyte})" style="width:60px" />
+                </td>
+                <td>
+                    <a href="~/SK_AREA/ProductStock/Edit/@psvmview.StockID" class="btn btn-primary">
+                        按我補貨
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    }
+
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new {page}), PagedListRenderOptions.ClassicPlusFirstAndLast)

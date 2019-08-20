@@ -1,0 +1,51 @@
+﻿@model Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.LoginViewModel
+    @{
+        ViewBag.Title = "Login";
+    }
+
+    <h2>Login</h2>
+
+    @section CSS{
+        <link href="~/Areas/SK_AREA/Content/Member.css" rel="stylesheet" />
+    }
+
+
+    <div class="container">
+        <div class="card cen" style="padding-left:20vw;padding-right:20vw">
+            <article class="card-body">
+                <a href="~/SK_AREA/MyLogin/Register" class="float-right btn btn-outline-primary">Sign up</a>
+                <h4 class="card-title mb-4 mt-1">Sign in</h4>
+                <form method="post" action="~/SK_AREA/MyLogin/Login">
+                    <div class="form-group">
+                        <label for="UserName">使用者名稱</label>
+                        <input name="UserName" id="UserName" class="form-control" placeholder="username" type="text">
+                    </div>
+
+                    <!-- form-group// -->
+                    <div class="form-group">
+                        <a class="float-right" href="#">Forgot?</a>
+                        <label for="UserPassword">使用者密碼</label>
+                        <input id="UserPassword" name="UserPassword" class="form-control" placeholder="******" type="password">
+                    </div>
+
+                    <!-- form-group// -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Save password
+                            </label>
+                        </div>
+
+                        <!-- checkbox .// -->
+                    </div>
+
+                    <!-- form-group// -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+                    </div>
+
+                    <!-- form-group// -->
+                </form>
+            </article>
+        </div> <!-- card.// -->
+    </div>

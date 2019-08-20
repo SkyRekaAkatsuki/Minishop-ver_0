@@ -1,0 +1,185 @@
+﻿@model Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ProuductMaintainViewModel.ProdMaintainPhotoViewModel.ProdMaintainPhotoViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<hidden id="hiddenpid" data-pid="@Html.DisplayFor(D => D.ProductID)" type="hidden"></hidden>
+
+<div class="container">
+    <h2>Product Image</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(D => D.ProductID)</th>
+                <th scope="col">@Html.DisplayNameFor(D => D.ProductName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">@Html.DisplayFor(D => D.ProductID)</th>
+                <td>@Html.DisplayFor(D => D.ProductName)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row form-group">
+        <h4 class="col-2" style="padding-right:25px;">
+            選擇圖檔
+        </h4>
+        <input id="fileupload" type="file" name="files[]" class="form-control col-4" placeholder="選擇圖檔" accept=".jpeg,.jpg,.gif,.png">
+
+    </div>
+    <div class="form-group row">
+        <button id="close" class="form-control btn btn-info col-1" style="margin:0px 30px 0px 30px;">關閉頁面</button>
+        @*<button id="save" type="submit" class="form-control btn btn-success col-1" style="margin:0px 30px 0px 30px;">存檔</button>*@
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(D => D.PhotoID)</th>
+                <th scope="col">@Html.DisplayNameFor(D => D.Photo1)</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="phtb">
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section Script{
+    <script src="~/Scripts/jquery-ui-1.9.0.min.js"></script>
+    <script src="~/Scripts/jQuery.FileUpload/jquery.fileupload.js"></script>
+    <script>
+        let _pid;
+        let phid;
+        let _ppid;
+    _pid = $('#hiddenpid').data('pid');
+    console.log("_pid =" + _pid);
+    F5photo(_pid);
+        Uploadph();
+
+        delphoto();
+
+    //-----function-----
+    function F5photo(pid) {
+        $.getJSON(`@Url.Action("PhotoJson","prodMaintainPhoto", new { area="SK_AREA"})/?pid=${pid}`, function (photo_json_data) {
+            var changefilestate = $(document.createDocumentFragment());
+            $.each(photo_json_data, function (idx, ph) {
+                var _trf = `<tr>`;
+                var _trd = `</tr>`;
+                var _td1 = `<td>${ph.PhotoID}</td>`;
+                var _td2 = `<td><img src="@Url.Action("GetImageByte","ProdMaintainPhoto",new { area="SK_AREA"})/?photoid=${ph.PhotoID}" class="card-img-top" style="width:60px;height:60px"></td>`;
+                var _td3 = `<td><button id="changeph" class="btn btn-info">換圖</button></td>`;
+                var _td4 = `<td><button id="delph" class="btn btn-success delbtn" data-ppid="${ph.ProductPhotoID}"  data-phid="${ph.PhotoID}">刪除</button></td>`;
+                var _add = $(_trf + _td1 + _td2 + _td4 + _trd);
+
+                changefilestate.append(_add);
+            });
+            $('#phtb').html(changefilestate);
+        });
+    }
+
+    function Uploadph() {
+        $('#fileupload').fileupload({
+            url: `@Url.Action("UploadImg","ProdMaintainPhoto",new { area="SK_AREA"})`,
+            type: 'json',
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            formData: { Parm: "這裡可以傳參數" },
+            autoUpload: true,
+            replaceFileInput: false, //可以顯示file的全路徑
+            add: function (e, data) { //綁定事件
+                //綁定上傳的事件
+                //通常在此作檢核
+                //提交
+                data.submit();
+
+            }, success: function (json) {
+                if (json.Status) {
+                    //alert(json.Message);
+                    photoid = json.photoid;
+                    //alert(`1=>photoid=>${photoid}`);
+                    afterImgCreateProdPhoto(_pid, photoid);
+                    F5photo(_pid);
+                }
+
+                else {
+                    alert(json.Message);
+                    photoid = 0;
+                }
+            }, done: function () { }
+        });
+    }
+
+        function afterImgCreateProdPhoto(_pid, photoid) {
+            $.post(`@Url.Action("afterImgCreateProdPhoto","ProdMaintainPhoto",new { area="SK_AREA"})`, {
+                pid: _pid,
+                phid: photoid,
+            }).done(function (json) {
+                if (json.Status) {
+                    alert(json.Message);
+                }
+            })
+        };
+
+        //關閉瀏覽器分頁
+        $('#close').click(CloseWebPage);
+
+        //可以關閉所有瀏覽器的方法
+        function CloseWebPage() {
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+                    window.opener = null;
+                    window.close();
+                } else {
+                    window.open('', '_top');
+                    window.top.close();
+                }
+            }
+            else if (navigator.userAgent.indexOf("Firefox") > 0) {
+                window.location.href = 'about:blank ';
+            } else {
+                window.opener = null;
+                window.open('', '_self', '');
+                window.close();
+            }
+        };
+
+        function delphoto() {
+            $('#phtb').on('click', 'button.delbtn', function () {
+                var _ppid = $(this).data('ppid');
+                console.log("_ppid =" + _ppid);
+                var _phid = $(this).data('phid');
+                console.log("_pid =" + _phid);
+
+                $.post(`@Url.Action("Delete","ProdMaintainPhoto",new { area="SK_AREA"})`, {
+                    ppid: _ppid,
+                    phid: _phid,
+                }).done(function (data) {
+                    if (data.Status) {
+                        alert(data.Message)
+                        F5photo(_pid);
+                    }
+                    else {
+                        alert(data.Message)
+                    }
+                });
+            })
+        }
+
+
+    </script>
+
+}
+
+

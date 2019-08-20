@@ -1,0 +1,59 @@
+﻿@model Minishop_ver_0._0._0.Areas.SK_AREA.Models.Shipping
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@*<form method="post" action="~/SK_AREA/Shipping/Create">*@
+@using (Html.BeginForm("Create", "Shipping", new { area = "SK_AREA" }, FormMethod.Post, new { novalidate = "novalidate" }))
+{
+
+
+    <div class="form-group">
+        @*<label for="ShippingName">ShippingName</label>*@
+        @Html.LabelFor(l => l.ShippingName, new { @for = "ShippingName" })
+        @*<input class="form-control" name="ShippingName" id="ShippingName" placeholder="Shipping Name">*@
+        @Html.TextBoxFor(t => t.ShippingName, new { @class = "form-control", placeholder = "Shipping Name" })
+        @Html.ValidationMessageFor(v=>v.ShippingName,"",new { @class = "text text-danger" })
+    </div>
+    <div class="form-group">
+        @*<label for="Phone">Phone</label>*@
+        @Html.LabelFor(l => l.Phone, new { @for = "Phone" })
+        @*<input class="form-control" name="Phone" id="Phone" placeholder="Phone">*@
+        @Html.TextBoxFor(t => t.Phone, new { @class = "form-control", placeholder = "Phone" })
+        @Html.ValidationMessageFor(t=>t.Phone,"",new { @class = "text text-danger" })
+    </div>
+    <div class="form-group">
+        @*<label for="Fax">Fax</label>*@
+        @Html.LabelFor(l => l.Fax)
+        @*<input class="form-control" name="Fax" id="Fax" placeholder="Fax">*@
+        @Html.TextBoxFor(t => t.Fax, new { @class = "form-control", placeholder = "Fax" })
+        @Html.ValidationMessageFor(t=>t.Fax,"",new { @class = "text text-danger" })
+    </div>
+    <div class="form-group">
+        @*<label for="Email">Email</label>*@
+        @Html.LabelFor(l => l.Email)
+        @*<input type="email" class="form-control" name="Email" id="Email" placeholder="Email">*@
+        @Html.TextBoxFor(t => t.Email, new { @class = "form-control", placeholder = "Email" })
+        @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text text-danger" })
+    </div>
+    <div class="form-group">
+        @*<label for="Address1">Address</label>*@
+        @Html.LabelFor(l => l.Address)
+        @*<input class="form-control" name="Address" id="Address" placeholder="Address">*@
+        @Html.TextBoxFor(t => t.Address, new { @class = "form-control", placeholder = "Address" })
+        @Html.ValidationMessageFor(t=>t.Address,"",new { @class = "text text-danger" })
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+@*</form>*@
+
+
+@*public int ShippingID { get; set; }
+    public string ShippingName { get; set; }
+    public string Phone { get; set; }
+    public string Fax { get; set; }
+    public string Email { get; set; }
+    public string Address { get; set; }
+    public Nullable<System.DateTime> CreateDate { get; set; }*@

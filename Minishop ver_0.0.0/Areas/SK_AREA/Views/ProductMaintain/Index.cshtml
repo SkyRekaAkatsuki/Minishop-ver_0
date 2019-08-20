@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "ProductMaintain-Index";
+}
+
+@section styleforProdMaintain{
+    <style>
+        .space_topsort {
+            height: 40px;
+        }
+
+        .space_MSsort {
+            height: 50px;
+        }
+    </style>
+}
+
+
+<div class="row">
+    <div class="col-10">
+        <h1><b>產品資料維護</b></h1>
+    </div>
+
+    <div class="col-2">
+        <h2><b>分類</b></h2> 
+    </div>
+</div>
+
+<div class="row" id="div_xxx">
+    <div class="col-10" id="div_PMid">
+        @Html.Action("ProductSheetPartial", "ProductMaintain", new { area = "SK_AREA" })
+    </div>
+
+    <div class="col-2">
+        <div class="space_topsort">
+
+        </div>
+        <div id="div_CMid">
+            @Html.Action("CatsgoryMSelectPartialView", "ProductMaintain", new { area = "SK_AREA" })
+        </div>
+        <div class="space_MSsort">
+
+        </div>
+        <div id="div_CSid">
+            @Html.Action("CategorySSelectPartialView", "ProductMaintain", new { area = "SK_AREA" })
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" id="modalheaderid">
+                <h1 class="modal-title" id="exampleModalLongTitle">請選擇活動</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalbodyid">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="jumpwinCancel">取消</button>
+                <button type="button" class="btn btn-primary" id="jumpwinOK">確定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section ProsMaintainScript{
+    <script>
+
+
+    //#region 基礎顯示控制
+    console.log("documant ready");
+    $('#selectM_cmid').change(function () {
+         console.log("CategoryM change ready");
+         console.log("CategoryM Select Option val = " + ($(this).val()));
+         var _cmid = ($(this).val());
+
+        Salvage_CategoryS(_cmid);
+        console.log("Salvage_CategoryS Loading END");
+        $('#div_CSid').on('click', 'li', function () {
+            console.log("CategoryS click-on ready");
+            console.log("CategoryS click-on li data-val = " + ($(this).data('val')));
+            var _csid = ($(this).data('val'));
+            Salvage_ProductMaintain(_csid);
+        });
+    });
+
+    $('#div_CSid').on('click', 'li', function () {
+        console.log("CategoryS click-on ready");
+        console.log("CategoryS click-on li data-val = " + ($(this).data('val')));
+        var _csid = ($(this).data('val'));
+        Salvage_ProductMaintain(_csid);
+    });
+    //#endregion
+
+    //活動按鈕
+    let _pid;
+    $('#div_PMid').on('click','.cls_activity', function () {
+        console.log("act btn Loading");
+        console.log($(this).data('pid'));
+        _pid = ($(this).data('pid'));
+        ReceiveJsonActivity(_pid);
+    });
+
+    $('#jumpwinOK').click(function () {
+        var _actid = $('#modalbodyid input[name*=optradio]:checked').data('actid');
+        var _prodid = $('#modalbodyid input[name*=optradio]:checked').data('prodid');
+        $.post(`@Url.Action("PostJsonActivityUpdate","ProductMaintain",new { area="SK_AREA"})`, {
+            actid: _actid,
+            prodid: _prodid,
+        }).done(function (Json) {
+            if (Json.State) {
+                alert(Json.Message);
+                $('#exampleModalCenter').modal('hide');
+            }
+            else {
+                alert(Json.Message);
+                $('#exampleModalCenter').modal('hide');
+            }
+        });
+    });
+
+
+    //#region function
+    //打撈 CategoryS
+    function Salvage_CategoryS(cmid) {
+        console.log("Salvage_CategoryS Loading");
+        $('#div_CSid').load(`@Url.Action("CategorySSelectPartialView","ProductMaintain", new { area = "SK_AREA" })/?cmid=${cmid}`);
+    }
+
+    //CategoryS click事件
+    function Click_CategoryS_li() {
+        $('#div_CSid').on('click', 'li', function () {
+            console.log("CategoryS click-on ready");
+            console.log("CategoryS click-on li data-val = " + ($(this).data('val')));
+            var _csid = ($(this).data('val'));
+        });
+    }
+
+    //打撈 ProductMaintain
+    function Salvage_ProductMaintain(csid) {
+        console.log("Salvage ProductMaintain Loading");
+        $('#div_PMid').load(`@Url.Action("ProductSheetPartial", "ProductMaintain", new { area = "SK_AREA"})/?csid=${csid}`);
+        }
+
+        //Json Controller to View "ActivityTable"
+        function ReceiveJsonActivity(pid) {
+            $.getJSON(`@Url.Action("ReturnJsonActivity", "ProductMaintain", new { area="SK_AREA"})/${pid}`, function (rja_json_data) {
+                console.log("function ReceiveJsonActivity Loading");
+                var changefilestate = $(document.createDocumentFragment());
+                var _divradiof = '<div class="radio">';
+                var _divradiob = '</div>';
+                $.each(rja_json_data, function (idx, rja) {
+                    var _data = $(`<label for="radio${idx}"><h2><input type="radio" id="radio${idx}" name="optradio" data-actid="${rja.ActivityID}" data-prodid="${pid}" style="width:20px;height:20px;">&nbsp;&nbsp;${rja.ActivityName}</h2></label><br />`).prop('checked', rja.RadioBtnView);
+                    changefilestate.append(_data);
+                });
+                changefilestate.prepend(_divradiof);
+                changefilestate.append(_divradiob)
+                $('#modalbodyid').html(changefilestate);
+            });
+        };
+        //<div class="radio">
+        //    <label><input type="radio" name="optradio" checked>Option 1</label>
+        //</div>
+    //#endregion
+    </script>
+}

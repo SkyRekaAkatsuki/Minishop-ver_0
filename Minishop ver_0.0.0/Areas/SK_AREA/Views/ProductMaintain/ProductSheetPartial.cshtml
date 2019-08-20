@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ProductMaintainViewModel>
+@{
+    ViewBag.Title = "ProductSheetPartial";
+}
+
+<button class="btn btn-danger" style="height:40px;">新增</button>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(D => D.ProductID)</th>
+            <th scope="col">@Html.DisplayNameFor(D => D.Photo1)</th>
+            <th scope="col">@Html.DisplayNameFor(D => D.ProductName)</th>
+            <th scope="col">@Html.DisplayNameFor(D => D.CategroyMSName)</th>
+            <th scope="col">@Html.DisplayNameFor(D => D.SupplierName)</th>
+            <th scope="col">@Html.DisplayNameFor(D => D.ProductInDate)</th>
+            <th scope="col">@Html.DisplayNameFor(D => D.ProductOutDate)</th>
+            <th scope="col">@Html.DisplayNameFor(D => D.UnitPrice)</th>
+            <th scope="col">產品修改</th>
+            <th scope="col">產品設定活動</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var _data in Model)
+        {
+        <tr>
+            <th scope="row">@Html.DisplayFor(D => _data.ProductID)</th>
+            <td>
+                <img src="@Url.Action("GetImageByte","ProductMaintain",
+                           new { area="SK_AREA", phid = _data.PhotoID })" alt="Alternate Text" style="height:75px"/>
+            </td>
+            <td>@Html.DisplayFor(D => _data.ProductName)</td>
+            <td>@Html.DisplayFor(D => _data.CategroyMSName)</td>
+            <td>@Html.DisplayFor(D => _data.SupplierName)</td>
+            <td>@Html.DisplayFor(D => _data.ProductInDate)</td>
+            <td>@Html.DisplayFor(D => _data.ProductOutDate)</td>
+            <td>@Html.DisplayFor(D => _data.UnitPrice)</td>
+            <td><a href="~/SK_AREA/ProductMaintain/Edit/@_data.ProductID" type="button" class="btn btn-primary">單品資料修改</a></td>
+            <td>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning cls_activity" data-pid="@Html.DisplayFor(D => _data.ProductID)" data-toggle="modal" data-target="#exampleModalCenter" id="activity-@Html.DisplayFor(D => _data.ProductID)">
+                    活動
+                </button>
+            </td>
+        </tr>
+        }
+
+
+    </tbody>
+</table>

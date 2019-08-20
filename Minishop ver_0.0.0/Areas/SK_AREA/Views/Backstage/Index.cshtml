@@ -1,0 +1,85 @@
+﻿@model IPagedList<Minishop_ver_0._0._0.Areas.SK_AREA.Models.Supplier>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<h2>供應商維護(產品來源)</h2>
+
+<a href="~/SK_AREA/Backstage/Create" class="btn btn-primary backstage_create_btn">創建新供應商</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            @*<th>SupplierID</th>
+        <th>SupplierName</th>
+        <th>Phone</th>
+        <th>Fax</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>CreateDate</th>
+        <th>Edit</th>
+        <th>Delete</th>*@
+
+            <th>@Html.DisplayNameFor(l=> l.First().SupplierID)</th>
+            <th>@Html.DisplayNameFor(l=> l.First().SupplierName)</th>
+            <th>@Html.DisplayNameFor(l=> l.First().Phone)</th>
+            <th>@Html.DisplayNameFor(l=> l.First().Fax)</th>
+            <th>@Html.DisplayNameFor(l=> l.First().Email)</th>
+            <th>@Html.DisplayNameFor(l=> l.First().Address)</th>
+            <th>@Html.DisplayNameFor(l=> l.First().CreateDate)</th>
+            <th>編輯供應商資料</th>
+            <th>移除供應商資料</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var _supplier in Model)
+        {
+            <tr>
+                <td>
+                    @*@_supplier.SupplierID*@
+                    @Html.DisplayFor(l => _supplier.SupplierID)
+                </td>
+                <td>
+                    @*@_supplier.SupplierName*@
+                    @Html.DisplayFor(l=> _supplier.SupplierName)
+                </td>
+                <td>
+                    @*@_supplier.Phone*@
+                    @Html.DisplayFor(l=>_supplier.Phone)
+                </td>
+                <td>
+                    @*@_supplier.Fax*@
+                    @Html.DisplayFor(l=>_supplier.Fax)
+                </td>
+                <td>
+                    @*@_supplier.Email*@
+                    @Html.DisplayFor(l=> _supplier.Email)
+                </td>
+                <td>
+                    @*@_supplier.Address*@
+                    @Html.DisplayFor(l=>_supplier.Address)
+                </td>
+                <td>
+                    @*@_supplier.CreateDate*@
+                    @Html.DisplayFor(l=>_supplier.CreateDate)
+                </td>
+                <td>
+                    <a href="~/SK_AREA/Backstage/Edit/@_supplier.SupplierID" class="btn btn-primary">編輯本列供應商</a>
+                </td>
+                <td>
+                    <a href="~/SK_AREA/Backstage/Delete/@_supplier.SupplierID" onclick="return confirm('真的要刪除嗎?')" class="btn btn-primary">移除本列供應商</a>
+                </td>
+
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+
+@ViewBag.error

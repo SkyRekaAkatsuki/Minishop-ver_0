@@ -1,0 +1,35 @@
+﻿<!--Switch 依照Controller 名稱 選擇使用哪個 Layout-->
+
+@{
+    string ControllerName = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"]);
+    switch (ControllerName.ToString())
+    {
+        case "About":
+            Layout = "~/Views/Shared/_LayoutAbout.cshtml";
+            break;
+        case "Blog":
+            Layout = "~/Views/Shared/_LayoutBlog.cshtml";
+            break;
+        case "Blog_Single":
+            Layout = "~/Views/Shared/_LayoutBlog_Single.cshtml";
+            break;
+        case "Cart":
+            Layout = "~/Views/Shared/_LayoutCart.cshtml";
+            break;
+        case "Contact":
+            Layout = "~/Views/Shared/_LayoutContact.cshtml";
+            break;
+        case "Home":
+            Layout = "~/Views/Shared/_LayoutHome.cshtml";
+            break;
+        case "Product_Single":
+            Layout = "~/Views/Shared/_LayoutProduct_Single.cshtml";
+            break;
+        case "Shop":
+            Layout = "~/Views/Shared/_LayoutShop.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_Layout.cshtml";
+            break;
+    }
+}

@@ -1,0 +1,215 @@
+﻿
+@{
+    ViewBag.Title = "IndexAppend";
+}
+
+<h2>IndexAppend</h2>
+
+
+<div id="Div_FrameWork" class="row">
+    <div id="div_left_product" class="col-9">
+       
+    </div>
+    <div id="div_right" class="col-3">
+        <div id="medium_sort">
+            <button id="button3" class="btn btn-primary">JQuery(Ajax)</button>
+            <h4>請選擇中分類</h4>
+            <select id="Middle_droplist">
+                @*<option id="CMNoption1"></option>
+                    <option id="CMNoption2"></option>
+                    <option id="CMNoption3"></option>*@
+            </select>
+        </div>
+
+        <div id="small_sort">
+            @*<table id="Stable">
+                    <thead id="Sthead">
+                       *<tr id="Stheadtr">
+                                <td></td>
+                            </tr>
+                    </thead>
+                    <tbody id="Stbody">
+                        <tr id="Stbodytr">
+                                <td></td>
+                            </tr>
+                    </tbody>
+                </table>*@
+        </div>
+    </div>
+
+</div>
+
+@section ajaxscripts{
+    <script>
+    //Json Ajax CategoryMiddle
+    $('#button3').click(function () {
+        $.getJSON('@Url.Action("CategoryMiddle", "AjaxProduct",new{ area = "SK_AREA" })', function (CM_json_data) {
+            var mediumsheet = $('#Middle_droplist');
+            var changefilestate = $(document.createDocumentFragment());
+            $.each(CM_json_data, function (idx, cm) {
+                var option = $('<option></option>').text(cm.CategoryMName).val(cm.CategoryMID).attr(`id`, `CMNoption${idx}`);
+                changefilestate.append(option);
+            });
+            mediumsheet.html(changefilestate).addClass('form-control');
+        });
+   });
+
+
+
+
+        @*$('#Middle_droplist').change(function () {
+            var cid = $(this).val();
+            var str = "<tr>";
+            $('#small_sort').load(`@Url.Action("CategorySmallPartial","AjaxProduct")/${cid}`);
+            setTimeout(function () {
+                //$('.CGTRID').mouseover(function () {
+                //$('.CGTRID>td').on('click', function () {
+                 $('.CGTRID').on('click', function () {
+
+                     alert($(this).data('csid'));
+                     var cstate = $('.CGTRID').attr('data-csid');
+
+                    $.getJSON(`@Url.Action("Product", "AjaxProduct", new { area = "SK_AREA" })/${cstate}`), function (CS_json_data) {
+                        $.each(CS_json_data, function (idx, cs) {
+                            $(`#CGSID${cs.CategorySID}`).click(function () {
+                                $('#div_left_product').load(`@Url.Action("ProductPartial","AjaxProduct")/${cs.CategorySID}`)
+                            });
+                        });
+                    };
+                });
+            }, 2000);
+        });*@
+
+        @*$('#Middle_droplist').change(function () {
+            var cid = $(this).val();
+            var str = "<tr>";
+            $('#small_sort').load(`@Url.Action("CategorySmallPartial","AjaxProduct")/${cid}`);
+            setTimeout(function () {
+                 $('.CGTRID').on('click', function () {
+
+                     alert($(this).data('csid'));
+                     var cstate = $('.CGTRID').attr('data-csid');
+
+                   *$.getJSON(`@Url.Action("Product", "AjaxProduct", new { area = "SK_AREA" })/${cstate}`), function (CS_json_data) {
+                        $.each(CS_json_data, function (idx, cs) {
+                            $(`#CGTRIDid${cstate}`).on('click',function () {
+                         $('#div_left_product').load(`@Url.Action("ProductPartial","AjaxProduct")/${cstate}`);
+                    //        });
+                    //    });
+                    //};
+                });
+            }, 2000);
+    });*@
+
+         @*$('#Middle_droplist').change(function () {
+             var cid = $(this).val();
+             $('#small_sort').load(`@Url.Action("CategorySmallPartial","AjaxProduct")/${cid}`);
+             setTimeout(function () {
+                 $('.CGTRID').on('click', function () {
+                     alert($(this).data('csid'));
+                     var cstate = $('.CGTRID').attr('data-csid');
+                     $('#div_left_product').load(`@Url.Action("ProductPartial","AjaxProduct")/${cstate}`);
+                 });
+             },2000);
+        });*@
+
+         @*$('#Middle_droplist').change(function () {
+             var cid = $(this).val();
+             $('#small_sort').load(`@Url.Action("CategorySmallPartial","AjaxProduct")/${cid}`);
+             setTimeout(function () {
+                 $('.CGTRID').on('click', function () {
+                     alert($(this).data('csid'));
+                     //var cstate = $('.CGTRID').attr('data-csid');
+                     $('#div_left_product').load(`@Url.Action("ProductPartial","AjaxProduct")/${$(this).data('csid')}`);
+                 });
+             },2000);
+        });
+
+                 $('.CGTRID').on('click', function () {
+                     alert($(this).data('csid'));
+                     $('#div_left_product').load(`@Url.Action("ProductPartial","AjaxProduct")/${$(this).data('csid')}`);
+        });*@
+
+
+        @*one*@
+        @*$('#Middle_droplist').change(function () {
+            var cid = $(this).val();
+            var changefilestate = $(document.createDocumentFragment());
+            var vtable = $('<h2>CategorySmall</h2><table class="table table-striped"><thead><tr><th scope="col">CategorySID</th><th scope="col">CategorySName</th></tr></thead><tbody id ="vtbody"></tbody></table>');
+            changefilestate.append(vtable);
+            $('#small_sort').html(changefilestate);
+            $.getJSON(`@Url.Action("CategorySmall","AjaxProduct", new { area = "SK_AREA" })/${cid}`, function (cs_json_data) {
+                $.each(cs_json_data, function (idx, cs) {
+                    var vtbody = $(`<tr><td>${cs.CategorySID}</td><td>${cs.CategorySName}</td>></tr>`)
+                    changefilestate.append(vtbody);
+                });
+                $('#vtbody').html(changefilestate);
+            });
+        });*@
+
+        $('#Middle_droplist').change(function () {
+            var cid = $(this).val();
+            var changefilestate = $(document.createDocumentFragment());
+            var vtable = $('<h2>CategorySmall</h2><table class="table table-striped"><thead><tr><th scope="col">CategorySID</th><th scope="col">CategorySName</th></tr></thead><tbody id ="vtbody"></tbody></table>');
+            changefilestate.append(vtable);
+            $('#small_sort').html(changefilestate);
+            $.getJSON(`@Url.Action("CategorySmall","AjaxProduct", new { area = "SK_AREA" })/${cid}`, function (cs_json_data) {
+                $.each(cs_json_data, function (idx, cs) {
+                    var vtbody = $(`<tr id="CSID${cs.CategorySID}" val="CSVAL${cs.CategorySID}" class="TRCLS" data-trid="${cs.CategorySID}"><td>${cs.CategorySID}</td><td>${cs.CategorySName}</td>></tr>`)
+                    changefilestate.append(vtbody);
+                });
+                $('#vtbody').html(changefilestate);
+            });
+            setTimeout(function () {
+                $(`.TRCLS`).on('click', function (event) {
+                    alert($(this).data('trid'));
+                    var ctid = $(this).data('trid');
+                    var changefilestate2 = $(document.createDocumentFragment());
+                    var ptable = $('<h2>Product</h2><table class="table table-striped"><thead><tr><th scope="col">ProductID</th><th scope="col">ProductName</th><th>CategorySID</th></tr></thead><tbody id ="ptbody"></tbody></table>');
+                    changefilestate2.append(ptable);
+                    $('#div_left_product').html(changefilestate2);
+                    $.getJSON(`@Url.Action("Product","AjaxProduct",new { area="SK_AREA"})/${ctid}`, function (ps_json_data) {
+                        $.each(ps_json_data, function(idx2, ps){
+                            var ptvbody = $(`<tr id="PID${ps.ProductID}" val="PVAL${ps.ProductID}" class="PCLS" data-pid="${ps.ProductID}"><td>${ps.ProductID}</td><td>${ps.ProductName}</td><td>${ps.CategorySID}</td></tr>`);
+                            changefilestate2.append(ptvbody);
+                        });
+                        $('#ptbody').html(changefilestate2);
+
+                    });
+
+
+                })
+            },500)
+
+
+        });
+
+        $(document).ready(function () {
+            $('.btn5').on('click', function (event) {
+                alert("ggggg");
+            })
+
+
+        })
+
+
+                 @*$('.CGTRID').on('click', function () {
+                     alert($(this).data('csid'));
+                     $('#div_left_product').load(`@Url.Action("ProductPartial","AjaxProduct")/${$(this).data('csid')}`);
+                 });*@
+        //setTimeout(function () {
+
+         //$('#button4').click(function () {
+        //    var changefilestate = $(document.createDocumentFragment());
+        //    var dd = $('<h2>HHH</h2>');
+        //    changefilestate.append(dd);
+        //    $('#div_left_product').html(changefilestate);
+        //});
+
+
+
+
+    </script>
+}
+
+

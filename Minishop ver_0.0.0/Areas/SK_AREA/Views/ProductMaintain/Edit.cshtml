@@ -1,0 +1,94 @@
+﻿@model Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ProductMaintainViewModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>商品修改</h2>
+
+<div class="row">
+    <div class="col-9">
+        @using (Html.BeginForm("Edit", "ProductMaintain", new { area = "SK_AREA" }, FormMethod.Post, new { novalidate = "novalidate" }))
+        {
+            @Html.HiddenFor(H => H.ProductID)
+            <div class="form-group row">
+                <div class="col-3">
+                    @Html.LabelFor(D => D.ProductID, new { @class = "d-flex h-100 align-items-center" })
+                </div>
+                <div class="col-9">
+                    @Html.DisplayFor(p => p.ProductID, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    @Html.LabelFor(D => D.ProductName, new { @class = "d-flex h-100 align-items-center" })
+                </div>
+                <div class="col-9">
+                    @Html.EditorFor(E=>E.ProductName,new { htmlattributes = new { @class="form-control" , placeholder="輸入商品名稱"}
+                    })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    @Html.LabelFor(D => D.Desctiption, new { @class = "d-flex h-100 align-items-center" })
+                </div>
+                <div class="col-9">
+                    @Html.TextAreaFor(T => T.Desctiption, new { @class = "form-control", placeholder = "輸入商品描述" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    @Html.LabelFor(D => D.UnitPrice, new { @class = "d-flex h-100 align-items-center" })
+                </div>
+                <div class="col-9">
+                    @Html.TextAreaFor(T => T.UnitPrice, new { @class = "form-control", placeholder = "輸入商品單價" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    @Html.LabelFor(D => D.CategorySID, new { @class = "d-flex h-100 align-items-center" })
+                </div>
+                <div class="col-9">
+                    @Html.DropDownListFor(D => D.CategorySID, (SelectList)ViewBag.CateSMName, "請選擇", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    @Html.LabelFor(D => D.SupplierID, new { @class = "d-flex h-100 align-items-center" })
+                </div>
+                <div class="col-9">
+                    @Html.DropDownListFor(D => D.SupplierID, (SelectList)ViewBag.Supplier, "請選擇", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    @Html.LabelFor(D => D.ProductInDate, new { @class = "d-flex h-100 align-items-center" })
+                </div>
+                <div class="col-9">
+                    @Html.EditorFor(E => E.ProductInDate, new { htmlattributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    @Html.LabelFor(D => D.ProductOutDate, new { @class = "d-flex h-100 align-items-center" })
+                </div>
+                <div class="col-9">
+                    @Html.EditorFor(E => E.ProductOutDate, new { htmlattributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">存檔</button>
+        }
+
+    </div>
+    <div class="col-2">
+        <div class="list-group" role="tablist">
+            <a href="~/SK_AREA/ProdMaintainColor/Index/?pid=@Model.ProductID" target="_blank" type="button" class="list-group-item list-group-item-action mb-3 mt-3 text-center bg-warning text-body" role="tab">商品顏色</a>
+            <a href="~/SK_AREA/ProdMaintainPhoto/Index/?pid=@Model.ProductID" target="_blank" type="button" class="list-group-item list-group-item-action mb-3 mt-3 text-center bg-warning text-body" role="tab">商品圖片</a>
+            <a href="~/SK_AREA/ProdMaintainWash/Index/?pid=@Model.ProductID" target="_blank" type="button" class="list-group-item list-group-item-action mb-3 mt-3 text-center bg-warning text-body" role="tab">洗滌方式</a>
+            <a href="~/SK_AREA/ProdMaintainSize/Index/?pid=@Model.ProductID" target="_blank" type="button" class="list-group-item list-group-item-action mb-3 mt-3 text-center bg-warning text-body" role="tab">商品尺寸</a>
+            <a href="" type="button" class="list-group-item list-group-item-action mb-3 mt-3 text-center bg-warning text-body" role="tab">商品庫存</a>
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div> 
+

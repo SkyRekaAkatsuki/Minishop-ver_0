@@ -1,0 +1,51 @@
+﻿@{
+    string ControllerName = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"]);
+    switch (ControllerName.ToString())
+    {
+        case "AjaxProduct":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutAjaxView.cshtml";
+            break;
+        case "Backstage":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            break;
+        case "Color":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            break;
+        case "Home":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            break;
+        case "MyLogin":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutMyLogin.cshtml";
+            break;
+        case "ProductCreate":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            break;
+        case "ProdMaintainColor":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutSpace.cshtml";
+            break;
+        case "ProdMaintainWash":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutSpace.cshtml";
+            break;
+        case "ProdMaintainSize":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutSpace.cshtml";
+            break;
+        case "ProductStock":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            break;
+        case "Shipping":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            break;
+        case "SeOmise":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutSeOmise.cshtml";
+            break;
+        case "SeOmiseRAM":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutSeOmise.cshtml";
+            break;
+        case "UserLogin":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutUserLogin.cshtml";
+            break;
+        default:
+            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            break;
+    }
+}

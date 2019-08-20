@@ -1,0 +1,159 @@
+﻿@model Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ProuductMaintainViewModel.ProdMaintainSizeViewModel.ProdMaintainSizeViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<hidden hidden="hidden" data-pid="@Html.DisplayFor(D => D.ProductID)" id="hidden_pid">pid</hidden>
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h2>產品擁有的尺寸大小維護</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(D => D.ProductID)</th>
+                    <th scope="col">@Html.DisplayNameFor(D => D.ProductName)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">@Html.DisplayFor(D => D.ProductID)</th>
+                    <td>@Html.DisplayFor(D => D.ProductName)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-2"></div>
+</div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8 row">
+        <h4 class="col-4">尺寸大小</h4>
+        <div class="col-8" id="sizeselect_parentelementid">
+            @Html.DropDownListFor(D => D.L_for_PMSVM.FirstOrDefault().SizeID, (SelectList)ViewBag.SizeSelect, "請選擇", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+<br />
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8 row">
+        <div class="col-3">
+            <button id="close" value="close" class="btn btn-secondary">關閉此頁面</button>
+        </div>
+        <div class="col-2">
+            <button id="save" value="save" class="btn btn-success">存檔</button>
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+<div class="py-5"></div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8" style="overflow:scroll;">
+        <h2>Manager設定的尺寸大小-產品</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(D => D.L_for_PMSVM.FirstOrDefault().ProductSizeID)</th>
+                    <th scope="col">@Html.DisplayNameFor(D => D.L_for_PMSVM.FirstOrDefault().SizeName)</th>
+                </tr>
+            </thead>
+            <tbody id="tbody2id">
+                @foreach (var _data in Model.L_for_PMSVM)
+                {
+                    <tr>
+                        <th scope="row" class="cls_pwid">@Html.DisplayFor(D => _data.ProductSizeID)</th>
+                        <td>@Html.DisplayFor(D => _data.SizeName)</td>
+                        <td>
+                            <button class="btn btn-danger delbtn" data-psid="@Html.DisplayFor(D => _data.ProductSizeID)">刪除</button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+@section Script{
+<script>
+    let _sid;
+    let _pid;
+    $('#sizeselect_parentelementid').on('change', 'select', function () {
+        _sid = ($(this).val());
+        console.log("_sid =" + _sid);
+    });
+
+    saveSize();
+
+    $('#tbody2id').on('click', 'button.delbtn', function () {
+        console.log("Loading delbtn");
+        var _psid = ($(this).data('psid'));
+        console.log("_psid =" + _psid);
+        delSize(_psid);
+    });
+    
+    //-----function-----
+    function saveSize() {
+        console.log("loading function saveSize");
+        $('#save').click(function () {
+            console.log("Loading saveSize Function");
+            console.log("_sid =" + _sid);
+            var _pid = $('#hidden_pid').data('pid');
+            console.log("_pid =" + _pid);
+            $.post(`@Url.Action("SaveSize", "ProdMaintainSize",new { area="SK_AREA"})`, {
+                pid: _pid,
+                sid: _sid,
+            }).done(function (_data) {
+                if (_data.State) {
+                    alert(_data.Message);
+                    SizeReload(_pid);
+
+                }
+                else {
+                    alert(_data.Message);
+                }
+            });
+        });
+    }
+
+    function SizeReload(pid) {
+        $.getJSON(`@Url.Action("SizeReload", "ProdMaintainSize", new { area = "SK_AREA" })/?pid=${pid}`, function (size_json_data) {
+            var changefilestate = $(document.createDocumentFragment());
+            $.each(size_json_data, function (idx, size) {
+                var _trf = `<tr>`;
+                var _trb = `</tr>`;
+                var _th1 = `<th scope="row">${size.ProductSizeID}</th>`;
+                var _td2 = `<td>${size.SizeName}</td>`;
+                var _td3 = `<td><button class="btn btn-danger delbtn" data-psid="${size.ProductSizeID}">刪除</button></td>`;
+                var _add = $(_trf + _th1 + _td2 + _td3 + _trb);
+
+                changefilestate.append(_add);
+            });
+            $('#tbody2id').html(changefilestate);
+        });
+    }
+
+    function delSize(psid) {
+        console.log("Loading delSize");
+        console.log("Loading psid = " + psid);
+        $.post(`@Url.Action("Delete","ProdMaintainSize",new { area="SK_AREA"})`, {
+            psid: psid,
+        }).done(function (_data) {
+            if (_data.State) {
+                alert(_data.Message);
+                SizeReload();
+            }
+            else {
+
+            }
+        });
+    }
+</script>    
+}

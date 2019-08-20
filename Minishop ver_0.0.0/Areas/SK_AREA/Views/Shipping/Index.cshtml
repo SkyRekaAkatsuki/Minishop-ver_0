@@ -1,0 +1,65 @@
+﻿@model IPagedList<Minishop_ver_0._0._0.Areas.SK_AREA.Models.Shipping>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>物流商維護(商品出貨)</h2>
+
+<a href="~/SK_AREA/Shipping/Create" class="btn btn-primary backstage_create_btn">建立新物流商</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th scope="col">ShippingID</th>
+                <th scope="col">ShippingName</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Fax</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">CreateDate</th>
+                <th scope="col">EDIT</th>
+                <th scope="col">DELETE</th>*@
+
+            <th>@Html.DisplayNameFor(l => l.First().ShippingID)</th>
+            <th>@Html.DisplayNameFor(l => l.First().ShippingName)</th>
+            <th>@Html.DisplayNameFor(l => l.First().Phone)</th>
+            <th>@Html.DisplayNameFor(l => l.First().Fax)</th>
+            <th>@Html.DisplayNameFor(l => l.First().Email)</th>
+            <th>@Html.DisplayNameFor(l => l.First().Address)</th>
+            <th>@Html.DisplayNameFor(l => l.First().CreateDate)</th>
+            <th>編輯物流商資料</th>
+            <th>移除物流商資料</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var _shipping in Model)
+        {
+            <tr>
+                @*<th scope="row" name="ShippingID" id="ShippingID">@_shipping.ShippingID</th>*@
+                <th scope="row" name="ShippingID" id="ShippingID">@Html.DisplayFor(s => _shipping.ShippingID)</th>
+                @*<td name="ShippingName" id="ShippingName">@_shipping.ShippingName</td>*@
+                <td name="ShippingName" id="ShippingName">@Html.DisplayFor(s => _shipping.ShippingName)</td>
+                @*<td name="Phone" id="Phone">@_shipping.Phone</td>*@
+                <td name="Phone" id="Phone">@Html.DisplayFor(s => _shipping.Phone)</td>
+                @*<td name="Fax" id="Fax">@_shipping.Fax</td>*@
+                <td name="Fax" id="Fax">@Html.DisplayFor(s => _shipping.Fax)</td>
+                @*<td name="Email" id="Email">@_shipping.Email</td>*@
+                <td name="Email" id="Email">@Html.DisplayFor(s => _shipping.Email)</td>
+                @*<td name="Address" id="Address">@_shipping.Address</td>*@
+                <td name="Address" id="Address">@Html.DisplayFor(s => _shipping.Address)</td>
+                @*<td name="CreateDate" id="CreateDate">@_shipping.CreateDate</td>*@
+                <td name="CreateDate" id="CreateDate">@Html.DisplayFor(s => _shipping.CreateDate)</td>
+                <td><a href="~/SK_AREA/Shipping/Edit/@_shipping.ShippingID" class="btn btn-primary">編輯本列物流商</a></td>
+                <td><a href="~/SK_AREA/Shipping/delete/@_shipping.ShippingID" class="btn btn-primary" onclick="return confirm('真的要刪除嗎?')">移除本列物流商</a></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)

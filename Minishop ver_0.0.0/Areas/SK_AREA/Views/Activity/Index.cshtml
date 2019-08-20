@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ActivityViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>活動維護</h2>
+
+<a href="~/SK_AREA/Activity/Create" class="btn btn-warning">新增</a>
+<br />
+<br />
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(p => p.First().ActivityID)</th>
+            <th>@Html.DisplayNameFor(p => p.First().ActivityName)</th>
+            <th>@Html.DisplayNameFor(p => p.First().BeginDate)</th>
+            <th>@Html.DisplayNameFor(p => p.First().EndDate)</th>
+            <th>@Html.DisplayNameFor(p => p.First().DiscountName)</th>
+            <th>編輯</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(p => item.ActivityID)</td>
+                <td>@Html.DisplayFor(p => item.ActivityName)</td>
+                <td>@Html.DisplayFor(p => item.BeginDate)</td>
+                <td>@Html.DisplayFor(p => item.EndDate)</td>
+                <td>@Html.DisplayFor(p => item.DiscountName)</td>
+                <td>
+                    <a href="~/SK_AREA/Activity/Edit/?id=@(item.ActivityID)" class="btn btn-primary">編輯</a>&ensp;&ensp;
+                    <a href="~/SK_AREA/Activity/Delete/?id=@(item.ActivityID)" type="button" id="ok-1" class="btn btn-danger del-1" data-toggle="modal" data-target="#myModal" data-actid="@item.ActivityID">
+                        刪除
+                    </a>
+                </td>
+                @*<td><a href="~/Backend/Activity/Delete/@item.ActivityID" class="btn btn-danger" onclick="return confirm('確定要刪除嗎?')"><i class="fa fa-trash"></i></a></td>*@
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Script{
+    <script>
+    $('.del-1').on('click', function () {
+            var actidd = $(this).data('actid');
+            var var_actid = JSON.stringify({
+                actid: $(this).data('actid'),
+            });
+        console.log("actid = " + actidd);
+        $.ajax({
+            url: "localhost:14223/SK_AREA/Activity/Delete",
+            type: 'POST',
+            contentType: "application/json",
+            data: var_actid
+        }).done(function (json) {
+            if (json.Status) {
+                alert(json.Message);
+            }
+            else {
+                alert(json.Message);
+            }
+        });
+    });
+
+
+    </script>
+}
+

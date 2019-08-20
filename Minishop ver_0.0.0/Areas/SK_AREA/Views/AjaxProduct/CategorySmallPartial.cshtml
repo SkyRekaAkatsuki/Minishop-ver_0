@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Minishop_ver_0._0._0.Areas.SK_AREA.Models.CategorySmall>
+@{
+    ViewBag.Title = "CategorySmallPartial";
+    int thtdid = 1;
+}
+
+<h2>CategorySmallPartial</h2>
+
+<table class="table table-striped" id="CStable">
+    <thead>
+        <tr>
+            <th scope="col">CategorySID</th>
+            <th scope="col">CategorySName</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var _cs in Model)
+        {
+            <tr>
+                <th scope="row" id="@thtdid">@_cs.CategorySID</th>
+                <td id="@thtdid">@_cs.CategorySName</td>
+            </tr>
+            thtdid++;
+        }*@
+
+        @*@foreach (var _cs in Model)
+        {
+            <tr class="CGTRID" val="@_cs.CategorySID">
+                <th scope="row" id="CGSID@_cs.CategorySID">@_cs.CategorySID</th>
+                <td href="~/SK_AREA/AjaxProduct/ProductPartial/@_cs.CategorySID" type="button" data-csid="@_cs.CategorySID" id="CGSID@_cs.CategorySID">@_cs.CategorySName</td>
+            </tr>
+        }*@
+
+        @foreach (var _cs in Model)
+        {
+            <tr class="CGTRID" val="@_cs.CategorySID" href="~/SK_AREA/AjaxProduct/ProductPartial/@_cs.CategorySID" data-csid="@_cs.CategorySID" id="CGTRIDid@_cs.CategorySID">
+                <th scope="row" id="CGSID@_cs.CategorySID">@_cs.CategorySID</th>
+                <td  id="CGSID@_cs.CategorySID">@_cs.CategorySName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

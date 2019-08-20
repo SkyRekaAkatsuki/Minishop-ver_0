@@ -1,0 +1,180 @@
+﻿
+
+@{
+    ViewBag.Title = "Main-RAM";
+}
+<style>
+    .nav-margin {
+        margin: 10px;
+    }
+</style>
+
+<h2>Main - SeOmiseRAM</h2>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark backstage_container">
+    <a class="navbar-brand" href="#">SeOmise</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto text-white ml-5" id="navbarid">
+            @*<li class="nav-item">
+                    <a class="nav-link" href="#">衣料品</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">下半身</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">配件</a>
+                </li>*@
+        </ul>
+        @*<form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>*@
+    </div>
+</nav>
+
+<div class="backstage_container backstage_body row">
+    <div class="col-2 backstage_colnum_navbar" id="left_2column_bar">
+        <ul class="list-group" id="left_ul_column_bar">
+            @*<li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Morbi leo risus</li>
+                <li class="list-group-item">Porta ac consectetur ac</li>
+                <li class="list-group-item">Vestibulum at eros</li>*@
+        </ul>
+    </div>
+    <div class="col-10">
+        <div class="card-columns" id="card-desk-id">
+            
+
+
+        </div>
+    </div>
+</div>
+
+
+@section Omise{
+<script>
+         $.getJSON(`@Url.Action("CategoryMiddle","SeOmiseRAM", new { area="SK_AREA"})`, function (cm_json_data) {
+                var changefilestate = $(document.createDocumentFragment());
+                $.each(cm_json_data, function (idx, cm) {
+                    var _tempnavtag = $(`<li class="nav-item nav-margin" data-id="${cm.CategoryMID}">${cm.CategoryMName}</li>`);
+                    changefilestate.append(_tempnavtag);
+                });
+                $('#navbarid').html(changefilestate);
+        });
+
+         //setTimeout(function () {
+         CategorySmallJson(1); //先LOAD
+
+             //setTimeout(function () {
+         SeOmiseJson(1);
+
+             //}, 10);
+         //}, 10);
+
+        $(document).ready(function () {
+            $('#navbarid').on('click', 'li', function () {
+                alert($(this).data('id'));
+                var cmid = $(this).data('id');
+                CategorySmallJson(cmid);
+
+                //setTimeout(function () {
+                    //SeOmiseJson(null);
+                    //$('#left_ul_column_bar').on('click', 'li', function () {
+                    //    var seomiseid = $(this).data('csid');
+                    //    console.log($(this).data('csid'));
+                    //    SeOmiseJson(seomiseid);
+                    //});
+                //}, 10);
+            });
+        });
+
+        $(document).ready(function () {
+            $('#left_ul_column_bar').on('click','li',function () {
+                alert($(this).data('csid'));
+                var seomiseid = $(this).data('csid');
+                console.log($(this).data('csid'));
+                SeOmiseJson(seomiseid);
+            });
+        });
+
+
+        function CategorySmallJson(cmid) {
+            $.getJSON(`@Url.Action("CategorySmall","SeOmiseRAM", new { area="SK_AREA"})/${cmid}`, function (cs_json_data) {
+                var changefilestate2 = $(document.createDocumentFragment());
+                $.each(cs_json_data, function (idx, cs) {
+                    var _tempcslist = $(`<li class="list-group-item" data-csid="${cs.CategorySID}">
+                                                                                ${cs.CategorySName}
+                                        </li>`);
+                    changefilestate2.append(_tempcslist);
+                });
+                $('#left_ul_column_bar').html(changefilestate2);
+            });
+        }
+
+        function SeOmiseJson(seomiseid) {
+            $.getJSON(`@Url.Action("ProductSeOmise","SeOmiseRAM",new { area="SK_AREA"})/${seomiseid}`, function (soj_json_data) {
+            var changefilestate3 = $(document.createDocumentFragment());
+                $.each(soj_json_data, function (idx, soj) {
+                    var divcard = $(`
+                                      <div class="card">
+                                          <img src="@Url.Action("GetImageByte","SeOmiseRAM",new { area="SK_AREA"})/?pid=${soj.ProductID}&cid=${soj.ColorID}" class="card-img-top" alt="...">
+                                          <div class="card-body">
+                                              <h5 class="card-title">${soj.ProductName}</h5>
+                                              <p class="card-text">${soj.ColorName}</p>
+                                              <p class="card-text"><small class="text-muted">${soj.UnitPrice}&nbsp;NT</small></p>
+                                          </div>
+                                      </div>
+                    `);
+
+                    @*var _div_cs_card = $('<div></div>').addClass('card');
+
+                    var _img_data = `@Url.Action("GetImageByte","SeOmiseRAM",new { area="SK_AREA"})/?pid=${soj.ProductID}&cid=${soj.ColorID}`;
+
+                    
+
+                    var _img = $('<img/>').addClass('card-img-top').attr('alt', '...').attr('src', `${_img_data}`);
+
+                    var _div_cs_card_body = $('<div></div>').addClass('card-body');
+
+                    var _h5 = $('<h5></h5>').addClass('card-title').text(`${soj.ProductName}`);
+
+                    var _p1 = $('<p></p>').addClass('card-text').text(`${soj.ColorName}`);
+
+                    var _upnt = $('<small></small>').addClass('text-muted').text(`${soj.UnitPrice} NT`);
+
+                    var _p2 = $('<p></p>').addClass('card-text');
+
+                    var _upnt_p2_append = _p2.append(_upnt);
+
+                    var _div_append_img = _div_cs_card.append(_img);
+
+                    var _div_append_img_div_cs_card_body = _div_append_img.append(_div_cs_card_body);
+
+                    var _div_append_img_div_cs_card_body_h5 = _div_append_img_div_cs_card_body.append(_h5);
+
+                    var _div_append_img_div_cs_card_body_h5_p1 = _div_append_img_div_cs_card_body_h5.append(_p1);
+
+                    var _div_append_img_div_cs_card_body_h5_p1_p2 = _div_append_img_div_cs_card_body_h5_p1.append(_upnt_p2_append);*@
+
+                    changefilestate3.append(divcard);
+                });
+            $('#card-desk-id').html(changefilestate3);
+            });
+    };
+
+
+
+
+
+
+</script>
+}
+
+
+
+

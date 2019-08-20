@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>for AjaxProduct Index</title>
+</head>
+<body>
+
+
+    <script>
+        $('#Middle_droplist').change(function () {
+            //var cid = $('#Middle_droplist option:select').val();
+            var cid = $(this).val();
+            $.getJSON('@Url.Action("CategorySmall", "AjaxProduct")'), function (CS_json_data) {
+                //var smallsheet = $('')
+                var changefilestate = $(document.createDocumentFragment());
+                var $tbody = $(`<table class="table table-striped"><thead><tr><th scope="col">CategoryMID</th><th scope="col">CategoryMName</th></tr></thead><tbody>`);
+                changefilestate.append($tbody);
+                $.each(CS_json_data, function (idx, cs) {
+                    //var $table = $('<table class="table table-striped">')
+                    var $tr = $(`<tr><td scope="row">${cs.CategoryMID}</td><td>${cs.CategoryMName}</td></tr>`);
+                    changefilestate.append($tr);
+                });
+                var $_tbody = $(`</tbody></table>`);
+                changefilestate.append($_tbody);
+                $('#small_sort').load(`@Url.Action("CategorySmall", "AjaxProduct")/${cid}`);
+            };
+        });
+
+         $('#Middle_droplist').change(function () {
+            //var cid = $('#Middle_droplist option:select').val();
+            var cid = $(this).val();
+            $.getJSON(`@Url.Action("CategorySmall", "AjaxProduct")/${cid}`), function (CS_json_data) {
+                var stbody = $('#Stbody');
+                var fragment = document.createDocumentFragment();
+                $.each(CS_json_data, function (idx, cs) {
+                    var theadtr = document.createElement('tr');
+                    var theadtd = document.createElement('td');
+                    $(theadtd).text(cs.CategorySName).val(cs.CategorySID).arrt(`id`, `CSNtd${idx}`);
+                    // fragment.appendChild(theadtd);
+                });
+                //$('#Stbody').html(fragment);
+                $('#small_sort').load(`@Url.Action("CategorySmall", "AjaxProduct")/${cid}`);
+            };
+        });
+
+
+
+        $.getJSON(`@Url.Action("CategorySmall", "AjaxProduct")/${cid}`), function (CS_json_data) {
+            var stbody = $('#Stbody');
+            var fragment = document.createDocumentFragment();
+            $.each(CS_json_data, function (idx, cs) {
+
+            });
+
+
+
+        $('#CGTRID').mouseover(function () {
+                var cstate = $(this).val();
+                $.getJSON(`@Url.Action("CategorySmall", "AjaxProduct")/${cstate}`), function (CS_json_data) {
+                    $.each(CS_json_data, function (idx, cs) {
+                        $(`#CGSID${cs.CategorySID}`).click(function () {
+                            $('#div_left_product').load(`@Url.Action("ProductPartial","AjaxProduct")/${cs.CategorySID}`);
+                        });
+                    });
+                };
+            });
+    </script>
+</body>
+</html>

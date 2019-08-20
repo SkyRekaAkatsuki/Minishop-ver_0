@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SeOmise</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Areas/SK_AREA/Content/ClickObj.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <style>
+        .backstage_body {
+            margin: 100px auto 150px auto;
+        }
+
+        .backstage_container {
+            padding-left: 5vw;
+            padding-right: 5vw;
+        }
+
+        .backstage_colnum_navbar {
+            padding-top: 10vh;
+            padding-bottom: 10vh;
+        }
+    </style>
+</head>
+<body style="padding:0px 0px 0px 0px">
+
+
+    <div class="backstage_body">
+        @RenderBody()
+    </div>
+
+    <footer class="backstage_container">
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>*@
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>*@
+    <script src="~/Scripts/jquery.validate.unobtrusive.bootstrap.min.js"></script>
+    @RenderSection("Omise", required: false)
+</body>
+</html>

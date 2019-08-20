@@ -1,0 +1,55 @@
+﻿@model IPagedList<Minishop_ver_0._0._0.Areas.SK_AREA.Models.Color>
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<h2>顏色資料表</h2>
+
+<div class="row">
+    @using (Html.BeginForm("Upload", "Color", new { area = "SK_AREA" }, FormMethod.Post, new { enctype = "multipart/form-data", style = "padding:20px;", @class = "col-4" }))
+    {
+        <div class="row">
+            <input type="file" class="form-control col-8" name="uploadfile" id="uploadfile"/>
+            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary col-3">Upload!</button>
+        </div>
+    }
+    <div class="col-6"></div>
+    @using (Html.BeginForm("Download", "Color", new { area = "SK_AREA" }, FormMethod.Post, new { enctype = "multipart/form-data", style = "padding:20px;", @class = "col-2 row" }))
+    {
+        <div class="col-4"></div>
+        <input type="hidden" class="form-control col-8" name="downloadfile" id="downloadfile"/>
+        <button type="submit" class="btn btn-primary col-8">Download!</button>
+    }
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(d => d.First().ColorID)</th>
+            <th scope="col">@Html.DisplayNameFor(d => d.First().ColorName)</th>
+            <th scope="col">@Html.DisplayNameFor(d => d.First().R)</th>
+            <th scope="col">@Html.DisplayNameFor(d => d.First().G)</th>
+            <th scope="col">@Html.DisplayNameFor(d => d.First().B)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <th scope="row">@Html.DisplayFor(d => c.ColorID)</th>
+                <td>@Html.DisplayFor(d => c.ColorName)</td>
+                <td>@Html.DisplayFor(d => c.R)</td>
+                <td>@Html.DisplayFor(d => c.G)</td>
+                <td>@Html.DisplayFor(d => c.B)</td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)

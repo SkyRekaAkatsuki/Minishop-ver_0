@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Minishop_ver_0._0._0.Areas.SK_AREA.Models.Product>
+@{
+    ViewBag.Title = "ProductPartial";
+}
+
+<h2>ProductPartial</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ProductID</th>
+            <th scope="col">ProductName</th>
+            <th scope="col">SupplierID</th>
+            <th scope="col">CategorySID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var _prod in Model)
+        {
+        <tr>
+            <th scope="row">@_prod.ProductID</th>
+            <td>@_prod.ProductName</td>
+            <td>@_prod.SupplierID</td>
+            <td>@_prod.CategorySID</td>
+        </tr>
+        }
+    </tbody>
+</table>

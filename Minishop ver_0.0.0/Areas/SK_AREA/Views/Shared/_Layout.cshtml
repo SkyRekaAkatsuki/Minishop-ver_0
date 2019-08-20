@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Areas/SK_AREA/Content/ClickObj.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    @RenderSection("styleforProdMaintain", required: false);
+    <style>
+        .backstage_body {
+            margin: 100px auto 150px auto;
+        }
+
+        .backstage_container {
+            padding-left: 1vw;
+            padding-right: 1vw;
+        }
+
+        .backstage_colnum_navbar {
+            padding-top: 10vh;
+            padding-bottom: 10vh;
+        }
+    </style>
+</head>
+<body style="padding:0px 0px 0px 0px">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="backstage_container backstage_body row">
+        <div class="col-2 backstage_colnum_navbar">
+            <div class="list-group">
+                <a href="" type="button" class="list-group-item list-group-item-action">商品上下架</a>
+                <a href="~/SK_AREA/ProductStock/Index" type="button" class="list-group-item list-group-item-action">商品補貨</a>
+                <a href="" type="button" class="list-group-item list-group-item-action">訂單出貨</a>
+                <a href="" type="button" class="list-group-item list-group-item-action">產品建檔</a>
+                <a href="" type="button" class="list-group-item list-group-item-action">中分類</a>
+                <a href="" type="button" class="list-group-item list-group-item-action">小分類</a>
+                <a href="" type="button" class="list-group-item list-group-item-action">顏色</a>
+                <a href="" type="button" class="list-group-item list-group-item-action">尺寸大小</a>
+                <a href="" type="button" class="list-group-item list-group-item-action">洗滌條件</a>
+                <a href="~/SK_AREA/Backstage/Index" type="button" class="list-group-item list-group-item-action">供應商</a>
+                <a href="~/SK_AREA/Shipping/Index" type="button" class="list-group-item list-group-item-action" disabled="">
+                    運送公司
+                </a>
+                <a type="button" class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse1">商品檢視表</a>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-action">Product</li>
+                        <li class="list-group-item list-group-item-action">Two</li>
+                        <li class="list-group-item list-group-item-action">Three</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer class="backstage_container">
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    @RenderSection("ProsMaintainScript", required: false)
+    @RenderSection("Script",required: false)
+</body>
+</html>

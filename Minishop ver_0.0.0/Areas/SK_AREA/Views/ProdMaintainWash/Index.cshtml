@@ -1,0 +1,172 @@
+﻿@model  Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ProdMaintainWashViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<hidden hidden="hidden" data-pid="@Html.DisplayFor(D => D.ProductID)" id="hidden_pid">pid</hidden>
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h2>洗滌方式維護</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(D => D.ProductID)</th>
+                    <th scope="col">@Html.DisplayNameFor(D => D.ProductName)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">@Html.DisplayFor(D => D.ProductID)</th>
+                    <td>@Html.DisplayFor(D => D.ProductName)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-2"></div>
+</div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8 row">
+        <h4 class="col-4">洗滌方式</h4>
+        <div class="col-8" id="washselect_parentelementid">
+            @Html.DropDownListFor(D => D.L_for_PMWVM.FirstOrDefault().WashingID, (SelectList)ViewBag.WashSelect,"請選擇", new { @class = "form-control"})
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+<br />
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8 row">
+        <div class="col-3">
+            <button id="close" value="close" class="btn btn-secondary">關閉此頁面</button>
+        </div>
+        <div class="col-2">
+            <button id="save" value="save" class="btn btn-success">存檔</button>
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+<div class="py-5"></div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8" style="height:500px; overflow:scroll;">
+        <h2>Manager設定的清洗方式-產品</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(D => D.L_for_PMWVM.FirstOrDefault().ProductWashingID)</th>
+                    <th scope="col">@Html.DisplayNameFor(D => D.L_for_PMWVM.FirstOrDefault().WashingName)</th>
+                </tr>
+            </thead>
+            <tbody id="tbody2id">
+                @foreach (var _data in Model.L_for_PMWVM)
+                {
+                    <tr>
+                        <th scope="row" class="cls_pwid">@Html.DisplayFor(D => _data.ProductWashingID)</th>
+                        <td>@Html.DisplayFor(D => _data.WashingName)</td>
+                        <td>
+                            <button class="btn btn-danger delbtn" data-pwid="@Html.DisplayFor(D => _data.ProductWashingID)">刪除</button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+@section Script{
+    <script>
+    let _wid;
+
+    $('#washselect_parentelementid').on('change', 'select', function () {
+        _wid = ($(this).val());
+        console.log("_pwid =" + _wid);
+    });
+
+    $('#save').click(function () {
+        var _pid = ($('#hidden_pid').data('pid'));
+        console.log("Now in Save BTN function _wid =" + _wid);
+        console.log("Now in Save BTN function _pid =" + _pid);
+        $.post(`@Url.Action("Edit", "ProdMaintainWash", new { area = "SK_AREA" })`, {
+            pid: _pid,
+            wid: _wid,
+        }).done(function (_data) {
+            if (_data.Status) {
+                alert(_data.Message);
+                washreload(_pid);
+            }
+            else {
+                alert(_data.Message);
+            }
+        });
+    });
+
+    $('#tbody2id').on('click', 'button.delbtn', function () {
+        console.log("delbtn Loading");
+        var _pid = ($('#hidden_pid').data('pid'));
+        console.log("_pid =" + _pid);
+        var _pwid = $(this).data('pwid');
+        console.log("_pwid =" + _pwid);
+        del(_pwid);
+
+    });
+
+    $('#close').click(CloseWebPage);
+
+    //-----function-----
+    function washreload(pid) {
+        $.getJSON(`@Url.Action("WashReload", "ProdMaintainWash", new { area = "SK_AREA"})/?pid=${pid}`, function (wash_json_data) {
+            var changelestate = $(document.createDocumentFragment());
+            $.each(wash_json_data, function (idx, wash) {
+                var _trf = `<tr>`;
+                var _trb = `</tr>`;
+                var _th1 = `<th scope="row">${wash.ProductWashingID}</th>`;
+                var _td2 = `<td>${wash.WashingName}</td>`;
+                var _td3 = `<td><button class="btn btn-danger delbtn" data-pwid="${wash.ProductWashingID}">刪除</button></td>`;
+                var _add = $(_trf + _th1 + _td2 + _td3 + _trb);
+
+                changelestate.append(_add);
+            });
+            $('#tbody2id').html(changelestate);
+        });
+    }
+
+    function del(pwid) {
+        var _pid = ($('#hidden_pid').data('pid'));
+        console.log("_pid =" + _pid);
+        $.post(`@Url.Action("Delete", "ProdMaintainWash",new { area="SK_AREA"})`, {
+            pwid: pwid,
+        }).done(function (_data) {
+            if (_data.State) {
+                alert(_data.Message);
+                washreload(_pid);
+            }
+        });
+    };
+
+    function CloseWebPage() {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+                window.opener = null;
+                window.close();
+            } else {
+                window.open('', '_top');
+                window.top.close();
+            }
+        }
+        else if (navigator.userAgent.indexOf("Firefox") > 0) {
+            window.location.href = 'about:blank ';
+        } else {
+            window.opener = null;
+            window.open('', '_self', '');
+            window.close();
+        }
+    };
+    </script>
+}

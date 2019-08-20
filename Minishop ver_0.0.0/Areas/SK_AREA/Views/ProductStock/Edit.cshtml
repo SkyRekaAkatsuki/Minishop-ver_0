@@ -1,0 +1,55 @@
+﻿@model Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ProductStockViewModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>補貨作業</h2>
+
+
+@using (Html.BeginForm("Edit", "ProductStock", new { area = "SK_AREA" }, FormMethod.Post, new { novalidate = "novalidate" }))
+{
+    @Html.HiddenFor(h => h.StockID)
+    <div class="form-group">
+        @Html.LabelFor(l => l.ProductName, new { @for = "ProductName" })
+        @Html.DisplayFor(d=>d.ProductName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.ColorName, new { @for = "ColorName" })
+        @Html.DisplayFor(d => d.ColorName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.SizeName, new { @for = "SizeName" })
+        @Html.DisplayFor(d => d.SizeName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.SupplierName, new { @for = "SupplierName" })
+        @Html.DisplayFor(d => d.SupplierName)
+    </div>
+    <div class="form-group">
+        @*<label for="exampleInputEmail1">Email address</label>*@
+        @Html.LabelFor(l => l.AddQTY, new { @for = "AddQTY" })
+        @*<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">*@
+        @Html.EditorFor(t => t.AddQTY,new { htmlattributes = new { @placeholder = "請填入欲補貨數量", @class = "form-control" } })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.StockQTY, new { @for = "StockQTY" })
+        @Html.DisplayFor(d => d.StockQTY)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.CartQTY, new { @for = "CartQTY" })
+        @Html.DisplayFor(d => d.CartQTY)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.OrderQTY, new { @for = "OrderQTY" })
+        @Html.DisplayFor(d => d.OrderQTY)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.MinStock, new { @for = "MinStock" })
+        @Html.DisplayFor(d => d.MinStock)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.PhotoView, new { @for = "PhotoView" })
+    </div>
+    <button type="submit" class="btn btn-primary">存檔</button>
+}
+
