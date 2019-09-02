@@ -2,6 +2,9 @@
     string ControllerName = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"]);
     switch (ControllerName.ToString())
     {
+        case "Activity":
+            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            break;
         case "AjaxProduct":
             Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutAjaxView.cshtml";
             break;
@@ -12,7 +15,7 @@
             Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
             break;
         case "Home":
-            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutHome.cshtml";
             break;
         case "MyLogin":
             Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutMyLogin.cshtml";
@@ -39,7 +42,7 @@
             Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutSeOmise.cshtml";
             break;
         case "SeOmiseRAM":
-            Layout = "~/Areas/SK_AREA/Views/Shared/_Layout.cshtml";
+            Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutHome.cshtml";
             break;
         case "StoredProcedure":
             Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutSpace.cshtml";

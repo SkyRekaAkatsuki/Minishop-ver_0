@@ -33,11 +33,9 @@
     </style>
 </head>
 <body style="padding:0px 0px 0px 0px">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    </nav>
 
     <div class="backstage_container1 backstage_body">
-            @RenderBody()
+        @RenderBody()
     </div>
 
     <footer class="backstage_container">
@@ -50,5 +48,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
     @RenderSection("ProsMaintainScript", required: false)
     @RenderSection("Script", required: false)
+    @RenderSection("Omise", required: false)
 </body>
 </html>

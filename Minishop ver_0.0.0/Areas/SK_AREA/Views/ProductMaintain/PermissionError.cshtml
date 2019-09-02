@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "PermissionError";
+    Layout = "~/Areas/SK_AREA/Views/Shared/_LayoutSpace.cshtml";
+}
+
+<h2>權限不足</h2>
+<br />
+<br />
+<br />
+<h4 style="color:#808080">5秒後將跳轉回主頁...</h4>
+
+@section Script{
+<script>
+    $(document).ready(
+        setTimeout(function () {
+            window.location.replace(`@Url.Action("IndexFirstLoadRAM", "SeOmiseRAM",new { area="SK_AREA"})`);
+        }, 5000)
+    );
+    </script>
+    }

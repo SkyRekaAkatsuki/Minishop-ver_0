@@ -19,8 +19,16 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         // GET: SK_AREA/Shipping
         public ActionResult Index(int? page)
         {
-            TempData["Page555+"] = page;
-            return View(repository.GetAll().ToList().ToPagedList(page ?? 1,3));
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
+            {
+                TempData["Page555+"] = page;
+                return View(repository.GetAll().ToList().ToPagedList(page ?? 1, 3));
+            }
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
         [HttpGet]

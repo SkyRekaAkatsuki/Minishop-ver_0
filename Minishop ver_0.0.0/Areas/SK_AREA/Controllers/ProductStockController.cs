@@ -34,91 +34,99 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         // GET: SK_AREA/ProductStock
         public ActionResult Index(int ? page)
         {
-            TempData["page7"] = page ?? 1;
-
-            var productstockModel = _productstockRepository.GetAll();
-
-            List<ProductStockViewModel> _ListPSVM = new List<ProductStockViewModel>();
-
-            foreach (var beta in productstockModel)
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
             {
-                ProductStockViewModel _PSVM = new ProductStockViewModel();
-                //ProductID
-                _PSVM.ProductID = beta.ProductID;
+                TempData["page7"] = page ?? 1;
 
-                //ProductName
-                var pn = _productRepository.GetById(beta.ProductID);
-                var pn2 = pn.ProductName;
-                _PSVM.ProductName = pn2;
+                var productstockModel = _productstockRepository.GetAll();
 
-                //ColorName
-                var tempcolor = db.ProductColors.Join(db.Colors, PC => PC.ColorID, C => C.ColorID, (PC, C) => new
+                List<ProductStockViewModel> _ListPSVM = new List<ProductStockViewModel>();
+
+                foreach (var beta in productstockModel)
                 {
-                    ColorName = C.ColorName,
-                    ColorID = C.ColorID,
-                    ProductID = PC.ProductID,
-                    ProductColorID = PC.ProductColorID,
-                });
-                var tempcolor2 = tempcolor.Where(PC => PC.ProductColorID == beta.ProductColorID).Select(C => C.ColorName);
-                _PSVM.ColorName = tempcolor2.First();
-                Debug.WriteLine("_PSVM.ColorName =" + _PSVM.ColorName);
+                    ProductStockViewModel _PSVM = new ProductStockViewModel();
+                    //ProductID
+                    _PSVM.ProductID = beta.ProductID;
 
-                //SizeName
-                var tempsize = db.ProductSizes.Join(db.Sizes, PS => PS.SizeID, S => S.SizeID, (PS, S) => new
-                {
-                    SizeName = S.SizeName,
-                    SizeID = S.SizeID,
-                    ProductID = PS.ProductID,
-                    ProductSizeID = PS.ProductSizeID,
-                });
-                var tempsize2 = tempsize.Where(S => S.ProductSizeID == beta.ProductSizeID).Select(S => S.SizeName);
-                _PSVM.SizeName = tempsize2.First();
-                Debug.WriteLine("_PSVM.SizeName =" + _PSVM.SizeName);
+                    //ProductName
+                    var pn = _productRepository.GetById(beta.ProductID);
+                    var pn2 = pn.ProductName;
+                    _PSVM.ProductName = pn2;
 
-                //StockID
-                _PSVM.StockID = beta.StockID;
+                    //ColorName
+                    var tempcolor = db.ProductColors.Join(db.Colors, PC => PC.ColorID, C => C.ColorID, (PC, C) => new
+                    {
+                        ColorName = C.ColorName,
+                        ColorID = C.ColorID,
+                        ProductID = PC.ProductID,
+                        ProductColorID = PC.ProductColorID,
+                    });
+                    var tempcolor2 = tempcolor.Where(PC => PC.ProductColorID == beta.ProductColorID).Select(C => C.ColorName);
+                    _PSVM.ColorName = tempcolor2.First();
+                    Debug.WriteLine("_PSVM.ColorName =" + _PSVM.ColorName);
 
-                //StockQTY
-                _PSVM.StockQTY = beta.StockQTY;
+                    //SizeName
+                    var tempsize = db.ProductSizes.Join(db.Sizes, PS => PS.SizeID, S => S.SizeID, (PS, S) => new
+                    {
+                        SizeName = S.SizeName,
+                        SizeID = S.SizeID,
+                        ProductID = PS.ProductID,
+                        ProductSizeID = PS.ProductSizeID,
+                    });
+                    var tempsize2 = tempsize.Where(S => S.ProductSizeID == beta.ProductSizeID).Select(S => S.SizeName);
+                    _PSVM.SizeName = tempsize2.First();
+                    Debug.WriteLine("_PSVM.SizeName =" + _PSVM.SizeName);
 
-                //MinStock
-                _PSVM.MinStock = beta.MinStock;
+                    //StockID
+                    _PSVM.StockID = beta.StockID;
 
-                //SuppilerName
-                var ts = _productRepository.GetById(beta.ProductID);
-                var ts2 = ts.SupplierID;
-                var ts3 = _supplierRepository.GetById(ts2).SupplierName;
+                    //StockQTY
+                    _PSVM.StockQTY = beta.StockQTY;
 
-                _PSVM.SupplierName = ts3;
-                Debug.WriteLine("_PSVM.SupplierName =" + _PSVM.SupplierName);
+                    //MinStock
+                    _PSVM.MinStock = beta.MinStock;
 
-                //訂購數量欄位
-                _PSVM.OrderQTY = db.OrderDetails
-                    .Where(x => x.ProductID == beta.ProductID && x.ProductColorID == beta.ProductColorID
-                                  && x.ProductSizeID == beta.ProductSizeID && x.OrderHeader.OrderStatusID == 1).Select(x => x.OrderQTY).Count();
+                    //SuppilerName
+                    var ts = _productRepository.GetById(beta.ProductID);
+                    var ts2 = ts.SupplierID;
+                    var ts3 = _supplierRepository.GetById(ts2).SupplierName;
 
-                //購物車訂購數量
-                _PSVM.CartQTY = db.Carts.Where(x => x.ProductID == beta.ProductID && x.ProductColorID == beta.ProductColorID
-                                  && x.ProductSizeID == beta.ProductSizeID).Select(x => x.Quantity).Count();
+                    _PSVM.SupplierName = ts3;
+                    Debug.WriteLine("_PSVM.SupplierName =" + _PSVM.SupplierName);
 
-                //需補貨數量
-                _PSVM.AddQTY = _PSVM.CartQTY + _PSVM.OrderQTY + _PSVM.MinStock - _PSVM.StockQTY;
+                    //訂購數量欄位
+                    _PSVM.OrderQTY = db.OrderDetails
+                        .Where(x => x.ProductID == beta.ProductID && x.ProductColorID == beta.ProductColorID
+                                      && x.ProductSizeID == beta.ProductSizeID && x.OrderHeader.OrderStatusID == 1).Select(x => x.OrderQTY).Count();
 
-                //讀圖片
-                var tempphoto = db.ProductColors.Find(beta.ProductColorID);
-                var tempphoto2 = db.Colors.Find(tempphoto.ColorID).ColorName;
-                _PSVM.PhotoID = Convert.ToInt32(tempphoto.PhotoID);
-                _PSVM.readimg_to_getimagebyte = tempphoto.ColorID;
+                    //購物車訂購數量
+                    _PSVM.CartQTY = db.Carts.Where(x => x.ProductID == beta.ProductID && x.ProductColorID == beta.ProductColorID
+                                      && x.ProductSizeID == beta.ProductSizeID).Select(x => x.Quantity).Count();
+
+                    //需補貨數量
+                    _PSVM.AddQTY = _PSVM.CartQTY + _PSVM.OrderQTY + _PSVM.MinStock - _PSVM.StockQTY;
+
+                    //讀圖片
+                    var tempphoto = db.ProductColors.Find(beta.ProductColorID);
+                    var tempphoto2 = db.Colors.Find(tempphoto.ColorID).ColorName;
+                    _PSVM.PhotoID = Convert.ToInt32(tempphoto.PhotoID);
+                    _PSVM.readimg_to_getimagebyte = tempphoto.ColorID;
 
 
 
-                //寫入集合 List<ProductStockViewModel> _ListPSVM
-                if (_PSVM.AddQTY > 0)
-                {
-                    _ListPSVM.Add(_PSVM);
+                    //寫入集合 List<ProductStockViewModel> _ListPSVM
+                    if (_PSVM.AddQTY > 0)
+                    {
+                        _ListPSVM.Add(_PSVM);
+                    }
                 }
+                return View(_ListPSVM.ToList().ToPagedList(page ?? 1, 5));
             }
-            return View(_ListPSVM.ToList().ToPagedList(page ?? 1, 5));
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
         
         [HttpGet]

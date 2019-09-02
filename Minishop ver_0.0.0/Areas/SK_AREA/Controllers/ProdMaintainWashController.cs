@@ -16,29 +16,37 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         [HttpGet]
         public ActionResult Index(int pid)
         {
-            var _pid = db.Products.Find(pid);
-            ProdMaintainWashViewModel _PMWVM = new ProdMaintainWashViewModel();
-
-            _PMWVM.ProductID = _pid.ProductID;
-            _PMWVM.ProductName = _pid.ProductName;
-
-
-            List<List_for_ProdMaintainWashViewModel> _ListLFPMVM = new List<List_for_ProdMaintainWashViewModel>();
-            var _pwtable = db.ProductWashings.Where(W => W.ProductID == _pid.ProductID);
-            foreach (var _data in _pwtable)
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
             {
-                 List_for_ProdMaintainWashViewModel _LFPMVM = new List_for_ProdMaintainWashViewModel();
-                _LFPMVM.ProductWashingID = _data.ProductWashingID;
-                _LFPMVM.WashingName = _data.Washing.WashingName;
+                var _pid = db.Products.Find(pid);
+                ProdMaintainWashViewModel _PMWVM = new ProdMaintainWashViewModel();
 
-                _ListLFPMVM.Add(_LFPMVM);
+                _PMWVM.ProductID = _pid.ProductID;
+                _PMWVM.ProductName = _pid.ProductName;
+
+
+                List<List_for_ProdMaintainWashViewModel> _ListLFPMVM = new List<List_for_ProdMaintainWashViewModel>();
+                var _pwtable = db.ProductWashings.Where(W => W.ProductID == _pid.ProductID);
+                foreach (var _data in _pwtable)
+                {
+                    List_for_ProdMaintainWashViewModel _LFPMVM = new List_for_ProdMaintainWashViewModel();
+                    _LFPMVM.ProductWashingID = _data.ProductWashingID;
+                    _LFPMVM.WashingName = _data.Washing.WashingName;
+
+                    _ListLFPMVM.Add(_LFPMVM);
+                }
+
+                ViewBag.WashSelect = new SelectList(db.Washings, "WashingID", "WashingName");
+
+                _PMWVM.L_for_PMWVM = _ListLFPMVM;
+
+                return View(_PMWVM);
             }
-
-            ViewBag.WashSelect = new SelectList(db.Washings, "WashingID", "WashingName");
-
-            _PMWVM.L_for_PMWVM = _ListLFPMVM;
-
-            return View(_PMWVM);
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
         [HttpPost]

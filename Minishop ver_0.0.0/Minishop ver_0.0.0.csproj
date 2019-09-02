@@ -155,6 +155,7 @@
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload.css" />
     <Content Include="Content\jQuery.FileUpload\img\loading.gif" />
     <Content Include="Content\jQuery.FileUpload\img\progressbar.gif" />
+    <Content Include="Content\notosanstc.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -217,6 +218,14 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\.gitignore" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\Gruntfile.js" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\jquery.cookie.js" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\MIT-LICENSE.txt" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\test\index.html" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\test\malformed_cookie.html" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\test\server.js" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\test\tests.js" />
     <Content Include="Customer-Script\Customer-Style\CMSHOPcss.css" />
     <Content Include="Customer-Script\FancyStoreImg\earth.svg" />
     <Content Include="Customer-Script\FancyStoreImg\facebook_512.svg" />
@@ -448,10 +457,7 @@
     <Content Include="Areas\SK_AREA\Views\SeOmise\Index.cshtml" />
     <Content Include="Areas\SK_AREA\Views\SeOmise\IndexFirstLoad.cshtml" />
     <Content Include="Areas\SK_AREA\Views\SeOmiseRAM\IndexFirstLoadRAM.cshtml" />
-    <Content Include="Areas\SK_AREA\Views\UserLogin\Login.cshtml" />
     <Content Include="Areas\SK_AREA\Views\Shared\_LayoutUserLogin.cshtml" />
-    <Content Include="Areas\SK_AREA\Views\UserLogin\Register.cshtml" />
-    <Content Include="Areas\SK_AREA\Views\UserLogin\Index.cshtml" />
     <Content Include="Areas\SK_AREA\Views\MyLogin\Login.cshtml" />
     <Content Include="Areas\SK_AREA\Views\Shared\_LayoutMyLogin.cshtml" />
     <Content Include="Areas\SK_AREA\Views\MyLogin\Register.cshtml" />
@@ -488,6 +494,18 @@
     <Content Include="Areas\SK_AREA\Views\StoredProcedure\TransProdTable.cshtml" />
     <Content Include="Areas\SK_AREA\Views\StoredProcedure\TransProdColor_INNERJOIN_Photo.cshtml" />
     <Content Include="Areas\SK_AREA\Views\ProdMaintainStock\Index.cshtml" />
+    <Content Include="Areas\SK_AREA\Views\Shared\_LayoutHome.cshtml" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\.jshintrc" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\.tm_properties" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\.travis.yml" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\bower.json" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\CHANGELOG.md" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\component.json" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\CONTRIBUTING.md" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\cookie.jquery.json" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\package.json" />
+    <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\README.md" />
+    <Content Include="Areas\SK_AREA\Views\ProductMaintain\PermissionError.cshtml" />
     <None Include="Properties\PublishProfiles\SlyMVC - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -548,7 +566,6 @@
     <Compile Include="Areas\SK_AREA\Controllers\SeOmiseRAMController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ShippingController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\StoredProcedureController.cs" />
-    <Compile Include="Areas\SK_AREA\Controllers\UserLoginController.cs" />
     <Compile Include="Areas\SK_AREA\Models\Activity.cs">
       <DependentUpon>FancyStoreModel.tt</DependentUpon>
     </Compile>

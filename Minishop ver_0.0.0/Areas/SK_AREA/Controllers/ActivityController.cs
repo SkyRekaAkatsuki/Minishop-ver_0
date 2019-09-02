@@ -15,26 +15,33 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         // GET: SK_AREA/Activity
         public ActionResult Index()
         {
-            var act = db.Activities.ToList();
-            List<ActivityViewModel> activityList = new List<ActivityViewModel>();
-            var dis = db.DiscountMethods;
-
-            foreach (var item in act)
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
             {
-                ActivityViewModel av = new ActivityViewModel();
+                var act = db.Activities.ToList();
+                List<ActivityViewModel> activityList = new List<ActivityViewModel>();
+                var dis = db.DiscountMethods;
 
-                av.ActivityID = item.ActivityID;
-                av.ActivityName = item.ActivityName;
-                av.DiscountID = item.DiscountID;
-                av.BeginDate = item.BeginDate;
-                av.EndDate = item.EndDate;
-                av.CreateDate = item.CreateDate;
-                av.DiscountName = dis.Where(W => W.DiscountID == av.DiscountID).FirstOrDefault().DiscountName;
+                foreach (var item in act)
+                {
+                    ActivityViewModel av = new ActivityViewModel();
 
-                activityList.Add(av);
+                    av.ActivityID = item.ActivityID;
+                    av.ActivityName = item.ActivityName;
+                    av.DiscountID = item.DiscountID;
+                    av.BeginDate = item.BeginDate;
+                    av.EndDate = item.EndDate;
+                    av.CreateDate = item.CreateDate;
+                    av.DiscountName = dis.Where(W => W.DiscountID == av.DiscountID).FirstOrDefault().DiscountName;
+
+                    activityList.Add(av);
+                }
+                return View(activityList.OrderBy(O => O.ActivityID));
             }
-
-            return View(activityList.OrderBy(O=>O.ActivityID));
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
         [HttpGet]

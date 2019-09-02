@@ -15,14 +15,22 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         // GET: SK_AREA/ProdMaintainPhoto
         public ActionResult Index(int pid)
         {
-            var _temp = db.Products.Find(pid);
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
+            {
+                var _temp = db.Products.Find(pid);
 
-            ProdMaintainPhotoViewModel _PMPVM = new ProdMaintainPhotoViewModel();
+                ProdMaintainPhotoViewModel _PMPVM = new ProdMaintainPhotoViewModel();
 
-            _PMPVM.ProductID = _temp.ProductID;
-            _PMPVM.ProductName = _temp.ProductName;
+                _PMPVM.ProductID = _temp.ProductID;
+                _PMPVM.ProductName = _temp.ProductName;
 
-            return View(_PMPVM);
+                return View(_PMPVM);
+            }
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
         public ActionResult PhotoJson(int pid)

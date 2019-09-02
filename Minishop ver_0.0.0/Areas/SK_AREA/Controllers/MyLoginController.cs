@@ -30,6 +30,14 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
             return View();
         }
 
+        //[HttpGet]
+        //public ActionResult Logout()
+        //{
+        //    Request.Cookies["IsLogin"].Expires = DateTime.Now.AddDays(-1);
+        //    //Request.Cookies.Remove("IsLogin");
+        //    return 
+        //}
+
         [HttpPost]
         public ActionResult Login(LoginViewModel form)
         {
@@ -49,9 +57,20 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
 
                 if (_pas.ToString() == _temp.ToString())
                 {
-                    Response.Cookies["IsLogin"].Value = "1";
-                    Response.Cookies["IsLogin"].Expires = DateTime.Now.AddDays(7);
-                    return RedirectToAction("IndexFirstLoadRAM", "SeOmiseRAM", new { area = "SK_AREA" });
+                    if (db.Users.Any(W=>W.UserName == form.UserName && W.Admin == true))
+                    {
+                        Response.Cookies["IsLogin"].Value = "Admin";
+                        Response.Cookies["IsLogin"].Path = "/";
+                        Response.Cookies["IsLogin"].Expires = DateTime.Now.AddDays(30);
+                        return RedirectToAction("IndexFirstLoadRAM", "SeOmiseRAM", new { area = "SK_AREA" });
+                    }
+                    else
+                    {
+                        Response.Cookies["IsLogin"].Value = "Normal";
+                        Response.Cookies["IsLogin"].Path = "/";
+                        Response.Cookies["IsLogin"].Expires = DateTime.Now.AddDays(7);
+                        return RedirectToAction("IndexFirstLoadRAM", "SeOmiseRAM", new { area = "SK_AREA" });
+                    }
                 }
             }
             else

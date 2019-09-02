@@ -17,6 +17,19 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         // GET: SK_AREA/ProductCreate
         public ActionResult Index()
         {
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
+            {
+                return View();
+            }
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
+        }
+
+        public ActionResult PermissionError()
+        {
             return View();
         }
 

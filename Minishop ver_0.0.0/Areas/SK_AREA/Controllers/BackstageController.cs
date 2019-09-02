@@ -16,10 +16,17 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         // GET: SK_AREA/Backstage
         public ActionResult Index(int? page)
         {
-            //記錄目前頁數,若是空值就給1
-            TempData["page1"] = page ?? 1;
-
-            return View(repository.GetAll().ToList().ToPagedList(page ?? 1,3));
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
+            {
+                //記錄目前頁數,若是空值就給1
+                TempData["page1"] = page ?? 1;
+                return View(repository.GetAll().ToList().ToPagedList(page ?? 1,3));
+            }
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
         [HttpGet]

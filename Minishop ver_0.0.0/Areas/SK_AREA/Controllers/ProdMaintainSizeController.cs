@@ -16,26 +16,34 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         [HttpGet]
         public ActionResult Index(int pid)
         {
-            var _pid = db.Products.Find(pid);
-            ProdMaintainSizeViewModel _PMSVM = new ProdMaintainSizeViewModel();
-
-            _PMSVM.ProductID = pid;
-            _PMSVM.ProductName = _pid.ProductName;
-            var _psTable = db.ProductSizes.Where(W => W.ProductID == pid);
-
-            List<List_for_ProdMaintainSizeViewModel> _ListLFPMSVM = new List<List_for_ProdMaintainSizeViewModel>();
-
-            foreach (var _data in _psTable)
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
             {
-                List_for_ProdMaintainSizeViewModel _LFPMSVM = new List_for_ProdMaintainSizeViewModel();
-                _LFPMSVM.ProductSizeID = _data.ProductSizeID;
-                _LFPMSVM.SizeName = _data.Size.SizeName;
-                _ListLFPMSVM.Add(_LFPMSVM);
-            }
+                var _pid = db.Products.Find(pid);
+                ProdMaintainSizeViewModel _PMSVM = new ProdMaintainSizeViewModel();
 
-            _PMSVM.L_for_PMSVM = _ListLFPMSVM;
-            ViewBag.SizeSelect = new SelectList(db.Sizes, "SizeID", "SizeName");
-            return View(_PMSVM);
+                _PMSVM.ProductID = pid;
+                _PMSVM.ProductName = _pid.ProductName;
+                var _psTable = db.ProductSizes.Where(W => W.ProductID == pid);
+
+                List<List_for_ProdMaintainSizeViewModel> _ListLFPMSVM = new List<List_for_ProdMaintainSizeViewModel>();
+
+                foreach (var _data in _psTable)
+                {
+                    List_for_ProdMaintainSizeViewModel _LFPMSVM = new List_for_ProdMaintainSizeViewModel();
+                    _LFPMSVM.ProductSizeID = _data.ProductSizeID;
+                    _LFPMSVM.SizeName = _data.Size.SizeName;
+                    _ListLFPMSVM.Add(_LFPMSVM);
+                }
+
+                _PMSVM.L_for_PMSVM = _ListLFPMSVM;
+                ViewBag.SizeSelect = new SelectList(db.Sizes, "SizeID", "SizeName");
+                return View(_PMSVM);
+            }
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
        [HttpPost]

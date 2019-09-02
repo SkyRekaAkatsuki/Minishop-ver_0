@@ -15,15 +15,23 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         // GET: Backend/ProdColor
         public ActionResult Index(int pid)
         {
-            ProdMaintainColorViewModel _PCVM = new ProdMaintainColorViewModel();
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
+            {
+                ProdMaintainColorViewModel _PCVM = new ProdMaintainColorViewModel();
 
-            var pd = db.Products.Find(pid);
+                var pd = db.Products.Find(pid);
 
-            _PCVM.ProductID = pd.ProductID;
-            _PCVM.ProductName = pd.ProductName;
-            ViewBag.productcolor = db.Colors;
+                _PCVM.ProductID = pd.ProductID;
+                _PCVM.ProductName = pd.ProductName;
+                ViewBag.productcolor = db.Colors;
 
-            return View(_PCVM);
+                return View(_PCVM);
+            }
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
         public ActionResult ProdColorJson(int? pid)

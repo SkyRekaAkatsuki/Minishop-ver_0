@@ -14,30 +14,38 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         // GET: SK_AREA/ProdMaintainStock
         public ActionResult Index(int? pid = 1)
         {
-            ProdMaintainStockViewModel _PMSVM = new ProdMaintainStockViewModel();
-
-            var _pPK = db.Products.Find(pid);
-
-            _PMSVM.ProductID = _pPK.ProductID;
-            _PMSVM.ProductName = _pPK.ProductName;
-
-            var _productcolor = db.ProductColors.Where(x => x.ProductID == pid).Select(x => new
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
             {
-                x.ProductColorID,
-                x.Color.ColorName
-            });
+                ProdMaintainStockViewModel _PMSVM = new ProdMaintainStockViewModel();
 
-            ViewBag.ColorSelect = new SelectList(_productcolor, "ProductColorID", "ColorName");
+                var _pPK = db.Products.Find(pid);
 
-            var _productsize = db.ProductSizes.Where(x => x.ProductID == pid).Select(x => new
+                _PMSVM.ProductID = _pPK.ProductID;
+                _PMSVM.ProductName = _pPK.ProductName;
+
+                var _productcolor = db.ProductColors.Where(x => x.ProductID == pid).Select(x => new
+                {
+                    x.ProductColorID,
+                    x.Color.ColorName
+                });
+
+                ViewBag.ColorSelect = new SelectList(_productcolor, "ProductColorID", "ColorName");
+
+                var _productsize = db.ProductSizes.Where(x => x.ProductID == pid).Select(x => new
+                {
+                    x.ProductSizeID,
+                    x.Size.SizeName
+                });
+
+                ViewBag.SizeSelect = new SelectList(_productsize, "ProductSizeID", "SizeName");
+
+                return View(_PMSVM);
+            }
+            else
             {
-                x.ProductSizeID,
-                x.Size.SizeName
-            });
-
-            ViewBag.SizeSelect = new SelectList(_productsize, "ProductSizeID", "SizeName");
-
-            return View(_PMSVM);
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
         public ActionResult ProdStockJson(int pid)

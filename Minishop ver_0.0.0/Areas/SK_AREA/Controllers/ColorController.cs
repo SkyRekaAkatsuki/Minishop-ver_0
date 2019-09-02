@@ -19,10 +19,18 @@ public class ColorController : Controller
         // GET: SK_AREA/Color
         public ActionResult Index(int? page)
         {
-            TempData["page1"] = page ?? 1;
-            //var tempcolorid = db.Colors.Select(S => S.ColorID);
-            //db.Colors.Find(tempcolorid);
-            return View(db.Colors.ToList().ToPagedList(page ?? 1, 5));
+            if (HttpContext.Request.Cookies["IsLogin"].Value == "Admin")
+            {
+                TempData["page1"] = page ?? 1;
+                //var tempcolorid = db.Colors.Select(S => S.ColorID);
+                //db.Colors.Find(tempcolorid);
+                return View(db.Colors.ToList().ToPagedList(page ?? 1, 5));
+            }
+            else
+            {
+                RedirectToAction("PermissionError", "ProductMaintain");
+            }
+            return View();
         }
 
         //Excel 檔案下載
