@@ -484,6 +484,11 @@
     <Content Include="Customer-Script\jQuery-File-Upload-master\wdio\bin\forward-ports.sh" />
     <Content Include="Customer-Script\jQuery-File-Upload-master\wdio\bin\safaridriver.sh" />
     <Content Include="Areas\SK_AREA\Views\ProdMaintainPhoto\Index.cshtml" />
+    <Content Include="Areas\SK_AREA\Views\StoredProcedure\Index.cshtml" />
+    <Content Include="Areas\SK_AREA\Views\StoredProcedure\TransProdTable.cshtml" />
+    <Content Include="Areas\SK_AREA\Views\StoredProcedure\TransProdColor_INNERJOIN_Photo.cshtml" />
+    <Content Include="Areas\SK_AREA\Views\ProdMaintainStock\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\SlyMVC - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -519,7 +524,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -533,12 +540,14 @@
     <Compile Include="Areas\SK_AREA\Controllers\ProdMaintainColorController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ProdMaintainPhotoController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ProdMaintainSizeController.cs" />
+    <Compile Include="Areas\SK_AREA\Controllers\ProdMaintainStockController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ProdMaintainWashController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ProductMaintainController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ProductStockController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\SeOmiseController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\SeOmiseRAMController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ShippingController.cs" />
+    <Compile Include="Areas\SK_AREA\Controllers\StoredProcedureController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\UserLoginController.cs" />
     <Compile Include="Areas\SK_AREA\Models\Activity.cs">
       <DependentUpon>FancyStoreModel.tt</DependentUpon>
@@ -676,6 +685,15 @@
     <Compile Include="Areas\SK_AREA\Models\Size.cs">
       <DependentUpon>FancyStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\SK_AREA\Models\SK_CategorySMName.cs">
+      <DependentUpon>FancyStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\SK_AREA\Models\sk_fn_reTable_P_Result.cs">
+      <DependentUpon>FancyStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\SK_AREA\Models\sk_sp_innerjoinTable_Result.cs">
+      <DependentUpon>FancyStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\SK_AREA\Models\Supplier.cs">
       <DependentUpon>FancyStoreModel.tt</DependentUpon>
     </Compile>
@@ -698,6 +716,7 @@
     <Compile Include="Areas\SK_AREA\Models\ViewModel\ProuductMaintainViewModel\ProdMaintainPhotoViewModel\ProdMaintainPhotoViewModel.cs" />
     <Compile Include="Areas\SK_AREA\Models\ViewModel\ProuductMaintainViewModel\ProdMaintainSizeViewModel\List_for_ProdMaintainSizeViewModel.cs" />
     <Compile Include="Areas\SK_AREA\Models\ViewModel\ProuductMaintainViewModel\ProdMaintainSizeViewModel\ProdMaintainSizeViewModel.cs" />
+    <Compile Include="Areas\SK_AREA\Models\ViewModel\ProuductMaintainViewModel\ProdMaintainStockViewModel\ProdMaintainStockViewModel.cs" />
     <Compile Include="Areas\SK_AREA\Models\ViewModel\RegisterViewModel.cs" />
     <Compile Include="Areas\SK_AREA\Models\ViewModel\SeOmiseIndex.cs" />
     <Compile Include="Areas\SK_AREA\Models\VW_EW_CategorySM.cs">
@@ -914,7 +933,6 @@
     <Folder Include="Areas\SK_AREA\Views\Base\" />
     <Folder Include="Areas\SK_AREA\Views\SupplierShippingViewModel\" />
     <Folder Include="Models\" />
-    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

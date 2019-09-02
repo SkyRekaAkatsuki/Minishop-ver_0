@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel;
+using Minishop_ver_0._0._0.Areas.SK_AREA.Models.Partial;
+using CategoryMiddle = Minishop_ver_0._0._0.Areas.SK_AREA.Models.Partial.CategoryMiddle.CategoryMiddleMetadata;
 
 namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
 {
@@ -27,10 +29,9 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
             {
                 S.CategoryMID,
                 S.CategoryMName,
-                S.CategorySmalls,
             });
 
-            return Content(_categorymiddle.ToJsonString());
+            return Json(_categorymiddle, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -38,9 +39,17 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Controllers
         {
             var CategorySmallsTable = db.CategorySmalls;
 
-            var _categorysmall = CategorySmallsTable.Where(W => W.CategoryMID == id).ToList();
+            //var _categorysmall = CategorySmallsTable.Where(W => W.CategoryMID == id).ToList();
 
-            return Content(_categorysmall.ToJsonString());
+            //return Content(_categorysmall.ToJsonString());
+
+            var _categorySmalls = CategorySmallsTable.Where(W=>W.CategoryMID == id).Select(S => new
+            {
+                S.CategorySID,
+                S.CategorySName,
+            });
+
+            return Json(_categorySmalls, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

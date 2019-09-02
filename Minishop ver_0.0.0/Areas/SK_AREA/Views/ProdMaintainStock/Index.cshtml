@@ -1,0 +1,309 @@
+﻿@model Minishop_ver_0._0._0.Areas.SK_AREA.Models.ViewModel.ProuductMaintainViewModel.ProdMaintainStockViewModel.ProdMaintainStockViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<hidden typeof="hidden" data-pid="@Model.ProductID" id="hiddenpid"></hidden>  
+
+<div class="container">
+    <h3>庫存維護</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(D => D.ProductID)</th>
+                <th scope="col">@Html.DisplayNameFor(D => D.ProductName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">@Html.DisplayFor(D => D.ProductID)</th>
+                <td>@Html.DisplayFor(D => D.ProductName)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="height:10px"></div>
+
+    <div class="row form-group">
+        <div class="col-1"></div>
+        <div class="col-5 row">
+            <div class="col-4">
+                @Html.LabelFor(L => L.ProductColor)
+            </div>
+            <div class="col-6 selectC">
+                @Html.DropDownListFor(D => D.ProductColorID, (SelectList)ViewBag.ColorSelect, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-5 row">
+            <div class="col-4">
+                @Html.LabelFor(L => L.ProductSize)
+            </div>
+            <div class="col-6 selectS">
+                @Html.DropDownListFor(D => D.ProductSizeID, (SelectList)ViewBag.SizeSelect, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+    <div style="height:40px"></div>
+
+    <div class="row form-group">
+        <div class="col-1"></div>
+        <div class="col-5 row">
+            <div class="col-4">
+                @Html.LabelFor(p => p.StockQTY)
+            </div>
+            <div class="col-6">
+                @Html.EditorFor(p => p.StockQTY, new { htmlAttributes = new { min = "0", @class = "form-control", placeholder = "輸入庫存量" } })
+                @*@Html.ValidationMessageFor(p => p.StockQTY, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="col-5 row">
+            <div class="col-4">
+                @Html.LabelFor(p => p.MinStock)
+            </div>
+            <div class="col-6">
+                @Html.EditorFor(p => p.MinStock, new { htmlAttributes = new { min = "0", @class = "form-control", placeholder = "輸入安全庫存量" } })
+                @*@Html.ValidationMessageFor(p => p.MinStock, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+    <div style="height:40px"></div>
+
+    <div class="row form-group">
+        <div class="col-1"></div>
+        <div class="col-5 row">
+            <div class="col-2">
+            </div>
+            <div class="col-6">
+                <button id="close" value="" class="btn btn-secondary">關閉分頁</button>
+            </div>
+        </div>
+        <div class="col-5 row">
+            <div class="col-2">
+            </div>
+            <div class="col-6">
+                <button id="save" value="" class="btn btn-success">新增資料</button>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+    <div style="height:100px"></div>
+
+    <div id="div-partial1" data-pid="@Model.ProductID"  style="height:400px; overflow:scroll;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(p => p.StockID)</th>
+                    <th>@Html.DisplayNameFor(p => p.PhotoID)</th>
+                    <th>@Html.DisplayNameFor(p => p.ProductColor)</th>
+                    <th>@Html.DisplayNameFor(p => p.ProductSize)</th>
+                    <th>@Html.DisplayNameFor(p => p.StockQTY)</th>
+                    <th>@Html.DisplayNameFor(p => p.MinStock)</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="tdebodyid">
+                @*<tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>*@
+            </tbody>
+        </table>
+    </div>
+    <input type="number" name="name" value="" min="1" />
+</div>
+
+
+@section Script{  
+<script>
+
+    let _selectProdColorID, _selectProdSizeID, _stockqty, _minstock;
+
+    $('.selectC').on('click', 'select', function () {
+        //----- ProductColorID -----
+        _selectProdColorID = $('.selectC option:selected').val();
+        console.log("selectProdColorID = " + _selectProdColorID);
+    });
+
+    $('.selectS').on('click', 'select', function () {
+        //----- ProductSizeID -----
+        _selectProdSizeID = $('.selectS option:selected').val();
+        console.log("selectProdSizeID = " + _selectProdSizeID);
+    });
+
+    _stockqty = $('#StockQTY').val();
+    console.log("stockqty = " + _stockqty);
+    $('#StockQTY').on('change', function () {
+        //----- Stock QTY -----
+        _stockqty = $('#StockQTY').val();
+        console.log("stockqty = " + _stockqty);
+    });
+
+    _minstock = $('#MinStock').val();
+    console.log("minstock = " + _minstock);
+    $('#MinStock').on('change', function () {
+        //----- Min Stock -----
+        _minstock = $('#MinStock').val();
+        console.log("minstock = " + _minstock);
+    });
+
+    var _pid = $('#hiddenpid').data('pid');
+    console.log("_pid =" + _pid);
+    CallProdStockJson(_pid);
+
+    $(document).ready(function () {
+        CreateStockData();
+        DeleteStockData();
+        UpdateStockDate();
+        $('#close').on('click', CloseWebPage);
+    });
+
+    // ----- function -----
+    
+
+
+    function CreateStockData() {
+        $('#save').on('click', function () {
+            if (_selectProdColorID < 1)
+            {
+                alert("顏色未選擇");
+            }
+            else
+            {
+                if (_selectProdSizeID < 1)
+                {
+                    alert("尺寸未選擇");
+                }
+                else
+                {
+                    console.log("Loading CreateStockData"),
+                    $.post(`@Url.Action("CreateStockData", "ProdMaintainStock",new { area="SK_AREA"})`,
+                        {
+                            pid: _pid,
+                            psid: _selectProdSizeID,
+                            pcid: _selectProdColorID,
+                            Sqty: _stockqty,
+                            Mstock: _minstock,
+                        }).done(function (json) {
+                            if (json.State) {
+                                alert(json.Message);
+                                CallProdStockJson(_pid);
+                            }
+                            else
+                            {
+                                alert(json.Message);
+                            }
+                        });
+                }
+            }
+        });
+    }
+
+    function DeleteStockData() {
+        $('#tdebodyid').on('click','button.delbtn', function () {
+            console.log("Del Click");
+            var _stockid = $(this).data('pppid');
+            console.log("_stockid = " + _stockid);
+
+            $.post(`@Url.Action("DeleteStockData", "ProdMaintainStock",new { area="SK_AREA"})`,
+                {
+                    StockID: _stockid,
+                }).done(function (_data)
+                {
+                    if (_data.State)
+                    {
+                        alert(_data.Message);
+                        CallProdStockJson(_pid);
+                    }
+                    else
+                    {
+                        alert(_data.Message);
+                    }
+                });
+        });
+    }
+
+    function UpdateStockDate() {
+        $('#tdebodyid').on('click', 'button.updatebtn', function () {
+            console.log("Update Click");
+            var _stockid = $(this).data('pppid');
+            console.log("_stockid = " + _stockid);
+
+            var _stockqty = $(this).parent().prev().prev().children().val();
+            console.log("_stockqty = " + _stockqty);
+            var _minstock = $(this).parent().prev().children().val();
+            console.log("_minstock = " + _minstock);
+
+            $.post(`@Url.Action("UpdateStockQTY", "ProdMaintainStock", new { Area = "SK_AREA" })`,
+                {
+                    stockID: _stockid,
+                    stockQTY: _stockqty,
+                    minStock: _minstock,
+                }).done(function (_data)
+                {
+                    if (_data.State)
+                    {
+                        alert(_data.Message);
+                        CallProdStockJson(_pid);
+                    }
+                    else
+                    {
+                        alert(_data.Message);
+                    }
+                });
+        });
+    }
+
+    function CallProdStockJson(pid) {
+        $.getJSON(`@Url.Action("ProdStockJson", "ProdMaintainStock", new { Area = "SK_AREA" })/?pid=${pid}`, function (prod_json_datas) {
+            var changefilestate = $(document.createDocumentFragment());
+            $.each(prod_json_datas, function (idx, detail) {
+                var _trf = `<tr>`;
+                var _td1 = `<td class="stockid_cls">${detail.StockID}</td>`;
+                var _td2 = `<td><img src="@Url.Action("GetImageByte","ProdMaintainPhoto", new { Area = "SK_AREA" })/?photoid=${detail.PhotoID}" class="card-img-top" style="width:60px;height:60px"></td>`;
+                var _td3 = `<td>${detail.ProductColor}</td>`;
+                var _td4 = `<td>${detail.ProductSize}</td>`;
+                var _td5 = `<td><input class="form-control" data-val="true" data-val-number="現有庫存量 必須是數字。" data-val-required="現有庫存量 是必要項。" id="${detail.StockQTY}" min="1" name="${detail.StockQTY}" type="number" value="${detail.StockQTY}"></td>`;
+                var _td6 = `<td><input class="form-control" data-val="true" data-val-number="安全庫存量 必須是數字。" data-val-required="安全庫存量 是必要項。" id="${detail.MinStock}" min="1" name="${detail.MinStock}" type="number" value="${detail.MinStock}"></td>`;
+                var _td7 = `<td><button class="btn btn-primary updatebtn" data-pppid="${detail.StockID}" data-pid="${detail.ProductID}">修改</button></td>`;
+                var _td8 = `<td><button class="btn btn-danger delbtn" data-pppid="${detail.StockID}" data-pid="${detail.ProductID}">刪除</button></td>`;
+                var _trb = `</tr>`;
+
+                var _add = $(_trf + _td1 + _td2 + _td3 + _td4 + _td5 + _td6 + _td7 + _td8 + _trb);
+
+                changefilestate.append(_add);
+            });
+            $('#tdebodyid').html(changefilestate);
+        });
+    };
+
+    //可以關閉所有瀏覽器的方法
+    function CloseWebPage() {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+                window.opener = null;
+                window.close();
+            } else {
+                window.open('', '_top');
+                window.top.close();
+            }
+        }
+        else if (navigator.userAgent.indexOf("Firefox") > 0) {
+            window.location.href = 'about:blank ';
+        } else {
+            window.opener = null;
+            window.open('', '_self', '');
+            window.close();
+        }
+    };
+</script>
+}
+

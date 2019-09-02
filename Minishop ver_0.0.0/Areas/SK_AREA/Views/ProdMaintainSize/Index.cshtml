@@ -98,6 +98,8 @@
         console.log("_psid =" + _psid);
         delSize(_psid);
     });
+
+    $('#close').on('click', CloseWebPage);
     
     //-----function-----
     function saveSize() {
@@ -142,18 +144,41 @@
 
     function delSize(psid) {
         console.log("Loading delSize");
+        var _pid = $('#hidden_pid').data('pid');
+        console.log("_pid = " + _pid);
         console.log("Loading psid = " + psid);
-        $.post(`@Url.Action("Delete","ProdMaintainSize",new { area="SK_AREA"})`, {
+        $.post(`@Url.Action("Delete", "ProdMaintainSize",new { area="SK_AREA"})`, {
             psid: psid,
         }).done(function (_data) {
             if (_data.State) {
                 alert(_data.Message);
-                SizeReload();
+                SizeReload(_pid);
             }
             else {
 
             }
         });
     }
+
+    //可以關閉所有瀏覽器的方法
+    function CloseWebPage() {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+                window.opener = null;
+                window.close();
+            } else {
+                window.open('', '_top');
+                window.top.close();
+            }
+        }
+        else if (navigator.userAgent.indexOf("Firefox") > 0) {
+            window.location.href = 'about:blank ';
+        } else {
+            window.opener = null;
+            window.open('', '_self', '');
+            window.close();
+        }
+    };
+
 </script>    
 }

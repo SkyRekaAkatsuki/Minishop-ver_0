@@ -371,6 +371,15 @@
           <Property Name="WashingName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'FancyStore.dbo.SK_CategorySMName' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="SK_CategorySMName">
+          <Key>
+            <PropertyRef Name="s" />
+          </Key>
+          <Property Name="s" Type="int" Nullable="false" />
+          <Property Name="CategorySMName" Type="nvarchar" MaxLength="41" />
+        </EntityType>
+        <!--產生期間發現錯誤:
 警告 6002: 資料表/檢視 'FancyStore.dbo.VW_EW_CategorySM' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
         <EntityType Name="VW_EW_CategorySM">
           <Key>
@@ -963,6 +972,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sk_fn_reProdName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+          <Parameter Name="pid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sk_fn_reTable_P" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="temp" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ProductID" Type="int" Nullable="false" />
+                <Property Name="ProductName" Type="nvarchar" MaxLength="50" Nullable="false" />
+                <Property Name="Desctiption" Type="nvarchar" MaxLength="250" />
+                <Property Name="CategorySID" Type="int" Nullable="false" />
+                <Property Name="UnitPrice" Type="int" Nullable="false" />
+                <Property Name="SupplierID" Type="int" />
+                <Property Name="ProductInDate" Type="datetime" />
+                <Property Name="ProductOutDate" Type="datetime" />
+                <Property Name="CreateDate" Type="datetime" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="sk_sp_innerjoinTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="temp" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ProductID" Type="int" Nullable="false" />
+                <Property Name="ColorID" Type="int" Nullable="false" />
+                <Property Name="Photo" Type="varbinary(max)" />
+                <Property Name="CreateDate" Type="datetime" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="sk_sp_reProd_Name" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pid" Type="int" Mode="In" />
+          <Parameter Name="pName" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="sk_sp_reTable_Prod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="temp" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="FancyStoreModelStoreContainer">
           <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ActivityProduct" EntityType="Self.ActivityProduct" Schema="dbo" store:Type="Tables" />
@@ -999,6 +1049,12 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Washing" EntityType="Self.Washing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SK_CategorySMName" EntityType="Self.SK_CategorySMName" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SK_CategorySMName].[s] AS [s], 
+    [SK_CategorySMName].[CategorySMName] AS [CategorySMName]
+    FROM [dbo].[SK_CategorySMName] AS [SK_CategorySMName]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="VW_EW_CategorySM" EntityType="Self.VW_EW_CategorySM" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [VW_EW_CategorySM].[CategorySID] AS [CategorySID], 
@@ -2245,6 +2301,20 @@
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="Question" EntitySet="Questions" />
           </AssociationSet>
+          <EntitySet Name="SK_CategorySMName" EntityType="FancyStoreModel.SK_CategorySMName" />
+          <FunctionImport Name="sk_fn_reTable_P" IsComposable="true" ReturnType="Collection(FancyStoreModel.sk_fn_reTable_P_Result)">
+          <Parameter Name="temp" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sk_sp_reProd_Name">
+            <Parameter Name="pid" Mode="In" Type="Int32" />
+            <Parameter Name="pName" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sk_sp_reTable_Prod">
+          <Parameter Name="temp" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sk_sp_innerjoinTable" IsComposable="true" ReturnType="Collection(FancyStoreModel.sk_sp_innerjoinTable_Result)">
+            <Parameter Name="temp" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Cart">
           <Key>
@@ -2474,6 +2544,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SK_CategorySMName">
+          <Key>
+            <PropertyRef Name="s" />
+          </Key>
+          <Property Name="s" Type="Int32" Nullable="false" />
+          <Property Name="CategorySMName" Type="String" MaxLength="41" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sk_fn_reTable_P_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Desctiption" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CategorySID" Nullable="false" />
+          <Property Type="Int32" Name="UnitPrice" Nullable="false" />
+          <Property Type="Int32" Name="SupplierID" Nullable="true" />
+          <Property Type="DateTime" Name="ProductInDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ProductOutDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sk_sp_innerjoinTable_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="Int32" Name="ColorID" Nullable="false" />
+          <Property Type="Binary" Name="Photo" Nullable="true" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2930,6 +3024,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SK_CategorySMName">
+            <EntityTypeMapping TypeName="FancyStoreModel.SK_CategorySMName">
+              <MappingFragment StoreEntitySet="SK_CategorySMName">
+                <ScalarProperty Name="CategorySMName" ColumnName="CategorySMName" />
+                <ScalarProperty Name="s" ColumnName="s" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sk_fn_reTable_P" FunctionName="FancyStoreModel.Store.sk_fn_reTable_P">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FancyStoreModel.sk_fn_reTable_P_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Desctiption" ColumnName="Desctiption" />
+                <ScalarProperty Name="CategorySID" ColumnName="CategorySID" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="ProductInDate" ColumnName="ProductInDate" />
+                <ScalarProperty Name="ProductOutDate" ColumnName="ProductOutDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sk_sp_reProd_Name" FunctionName="FancyStoreModel.Store.sk_sp_reProd_Name" />
+          <FunctionImportMapping FunctionImportName="sk_sp_reTable_Prod" FunctionName="FancyStoreModel.Store.sk_sp_reTable_Prod" />
+          <FunctionImportMapping FunctionImportName="sk_sp_innerjoinTable" FunctionName="FancyStoreModel.Store.sk_sp_innerjoinTable">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FancyStoreModel.sk_sp_innerjoinTable_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ColorID" ColumnName="ColorID" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

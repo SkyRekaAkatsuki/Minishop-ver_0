@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Minishop_ver_0._0._0.Areas.SK_AREA.Models.sk_sp_innerjoinTable_Result>
+@{
+    ViewBag.Title = "TransProdColor_INNERJOIN_Photo";
+}
+
+
+
+<div class="container">
+    <h2>TransProdColor_INNERJOIN_Photo</h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(D => D.ProductID)</th>
+                <th scope="col">@Html.DisplayNameFor(D => D.ColorID)</th>
+                <th scope="col">@Html.DisplayNameFor(D => D.CreateDate)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var _data in Model)
+            {
+                <tr>
+                    <th scope="row">@Html.DisplayFor(D => _data.ProductID)</th>
+                    <td>@Html.DisplayFor(D => _data.ColorID)</td>
+                    <td>@Html.DisplayFor(D => _data.CreateDate)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

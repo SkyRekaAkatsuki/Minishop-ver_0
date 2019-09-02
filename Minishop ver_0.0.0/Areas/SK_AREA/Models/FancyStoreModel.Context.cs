@@ -12,6 +12,8 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class FancyStoreEntities : DbContext
     {
@@ -65,5 +67,44 @@ namespace Minishop_ver_0._0._0.Areas.SK_AREA.Models
         public virtual DbSet<VW_EW_ProductSize> VW_EW_ProductSize { get; set; }
         public virtual DbSet<VW_EW_Supplier> VW_EW_Supplier { get; set; }
         public virtual DbSet<OrderHeader> OrderHeaders { get; set; }
+        public virtual DbSet<SK_CategorySMName> SK_CategorySMName { get; set; }
+    
+        [DbFunction("FancyStoreEntities", "sk_fn_reTable_P")]
+        public virtual IQueryable<sk_fn_reTable_P_Result> sk_fn_reTable_P(Nullable<int> temp)
+        {
+            var tempParameter = temp.HasValue ?
+                new ObjectParameter("temp", temp) :
+                new ObjectParameter("temp", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<sk_fn_reTable_P_Result>("[FancyStoreEntities].[sk_fn_reTable_P](@temp)", tempParameter);
+        }
+    
+        public virtual int sk_sp_reProd_Name(Nullable<int> pid, ObjectParameter pName)
+        {
+            var pidParameter = pid.HasValue ?
+                new ObjectParameter("pid", pid) :
+                new ObjectParameter("pid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sk_sp_reProd_Name", pidParameter, pName);
+        }
+    
+        public virtual int sk_sp_reTable_Prod(Nullable<int> temp)
+        {
+            var tempParameter = temp.HasValue ?
+                new ObjectParameter("temp", temp) :
+                new ObjectParameter("temp", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sk_sp_reTable_Prod", tempParameter);
+        }
+    
+        [DbFunction("FancyStoreEntities", "sk_sp_innerjoinTable")]
+        public virtual IQueryable<sk_sp_innerjoinTable_Result> sk_sp_innerjoinTable(Nullable<int> temp)
+        {
+            var tempParameter = temp.HasValue ?
+                new ObjectParameter("temp", temp) :
+                new ObjectParameter("temp", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<sk_sp_innerjoinTable_Result>("[FancyStoreEntities].[sk_sp_innerjoinTable](@temp)", tempParameter);
+        }
     }
 }

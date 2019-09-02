@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Minishop_ver_0._0._0.Areas.SK_AREA.Models.sk_fn_reTable_P_Result>
+@{
+    ViewBag.Title = "TransProdTable";
+}
+
+<div class="container">
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(D => D.ProductID)</th>
+                <th scope="col">@Html.DisplayNameFor(D => D.ProductName)</th>
+                <th scope="col">@Html.DisplayNameFor(D => D.UnitPrice)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var _data in Model)
+            {
+                <tr>
+                    <th scope="row">@Html.DisplayFor(D => _data.ProductID)</th>
+                    <td>@Html.DisplayFor(D => _data.ProductName)</td>
+                    <td>@Html.DisplayFor(D => _data.UnitPrice)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -89,6 +89,7 @@
         <AssociationConnector Association="FancyStoreModel.FK_Orders_Status" />
         <AssociationConnector Association="FancyStoreModel.FK_Orders_Users" />
         <AssociationConnector Association="FancyStoreModel.FK_Questions_Orders" />
+        <EntityTypeShape EntityType="FancyStoreModel.SK_CategorySMName" Width="2" PointX="16.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
