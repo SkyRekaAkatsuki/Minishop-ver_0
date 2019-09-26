@@ -85,6 +85,9 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -99,6 +102,9 @@
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
@@ -615,6 +621,7 @@
     <Compile Include="Areas\SK_AREA\Controllers\BackstageController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ColorController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\HomeController.cs" />
+    <Compile Include="Areas\SK_AREA\Controllers\MiddelClass_WebAPIController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\MyLoginController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ProdMaintainColorController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ProdMaintainPhotoController.cs" />
