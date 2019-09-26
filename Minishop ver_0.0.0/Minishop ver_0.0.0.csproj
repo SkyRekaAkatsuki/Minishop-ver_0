@@ -506,6 +506,7 @@
     <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\package.json" />
     <Content Include="Customer-Script\carhartl-jquery-cookie-92b7715\README.md" />
     <Content Include="Areas\SK_AREA\Views\ProductMaintain\PermissionError.cshtml" />
+    <None Include="Properties\PublishProfiles\IIS_Mini.pubxml" />
     <None Include="Properties\PublishProfiles\SlyMVC - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -566,6 +567,7 @@
     <Compile Include="Areas\SK_AREA\Controllers\SeOmiseRAMController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\ShippingController.cs" />
     <Compile Include="Areas\SK_AREA\Controllers\StoredProcedureController.cs" />
+    <Compile Include="Areas\SK_AREA\Controllers\UserLoginController.cs" />
     <Compile Include="Areas\SK_AREA\Models\Activity.cs">
       <DependentUpon>FancyStoreModel.tt</DependentUpon>
     </Compile>
